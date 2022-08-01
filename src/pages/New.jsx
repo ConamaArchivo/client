@@ -1,9 +1,10 @@
 import React from 'react';
+import Form from '../components/New/Form';
 
 const New = () => {
   return (
-    <div id='new'>
-      <h1>New</h1>
+    <div id="new">
+      <Form />
     </div>
   );
 };

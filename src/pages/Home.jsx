@@ -1,9 +1,12 @@
-import React from 'react';
+import Table from '../components/Home/Table';
+import Card from '../components/Home/Card';
 
 const Home = () => {
+
   return (
-    <div id='home'>
-      <h1>Home</h1>
+    <div id="home">
+      <Table />
+      <Card />
     </div>
   );
 };

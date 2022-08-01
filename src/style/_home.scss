@@ -1,3 +1,202 @@
 #home {
-  color: $font-color;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 100vh;
+  .table-wrapper {
+    padding: 1rem;
+    table {
+      border-collapse: collapse;
+      border: 2px solid $sec-bg-color;
+      height: min-content;
+      width: 100%;
+      th {
+        background: $sec-bg-color;
+      }
+      td,
+      th {
+        border: solid $sec-bg-color;
+        border-width: 1px 0 2px 0;
+        text-align: left;
+        padding: 0.5rem;
+      }
+    }
+  }
+}
+
+.card-wrapper {
+  overflow-y: scroll;
+  .card {
+    background: $sec-bg-color;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: $card-padding;
+    .card-btns {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $sec-btn-color;
+        color: $pri-font-color;
+        border: none;
+        width: $action-btn-size;
+        height: $action-btn-size;
+        border-radius: $btn-border-radius;
+        cursor: pointer;
+        svg {
+          width: $small-svg-size;
+          height: $small-svg-size;
+        }
+      }
+      .actions {
+        position: absolute;
+        display: flex;
+        display: none;
+        flex-direction: column;
+        top: 100%;
+        left: 0;
+      }
+    }
+    h3 {
+      font-size: 1.6rem;
+      margin-bottom: $card-bottom-spacing;
+      font-weight: 900;
+    }
+    .author,
+    .arr-author {
+      margin-bottom: $card-bottom-spacing;
+      color: $sec-font-color;
+      display: flex;
+      flex-direction: column;
+      gap: $card-item-spacing/2;
+      > div {
+        display: flex;
+        span {
+          margin-left: auto;
+          position: relative;
+          cursor: pointer;
+          height: min-content;
+          &::before {
+            content: attr(data-code);
+            position: absolute;
+            top: -0.2rem;
+            right: 140%;
+            height: 100%;
+            background: $pri-bg-color;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.2rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.2s ease-in-out;
+          }
+          &:hover::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    h5 {
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+    .genres,
+    .accompaniment {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $card-item-spacing;
+      margin-bottom: $card-bottom-spacing;
+
+      .genre-item,
+      .accompaniment-item {
+        padding: 0.2rem 0.4rem;
+        background: $ter-bg-color;
+      }
+    }
+    .repertoire,
+    .voices {
+      margin-bottom: $card-bottom-spacing;
+      font-weight: 700;
+    }
+    .archive-item {
+      font-weight: 700;
+      color: $sec-font-color;
+    }
+    .location {
+      font-weight: 700;
+    }
+    .comment {
+      background: $ter-bg-color;
+      padding: 1rem;
+    }
+    .version {
+      background: $pri-bg-color;
+      margin-top: $card-bottom-spacing;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: $card-gap;
+    }
+    .archive {
+      display: flex;
+      flex-direction: column;
+      gap: $card-item-spacing/2;
+    }
+    .pdf {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: $card-bottom-spacing;
+      .img-wrapper {
+        display: flex;
+        position: relative;
+        width: 60%;
+        img {
+          width: 100%;
+          margin-inline: auto;
+        }
+        a {
+          position: absolute;
+          text-decoration: none;
+          color: $pri-font-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: $big-svg-size * 1.8;
+          transition: 0.15s ease-in-out;
+          svg {
+            transition: transform 0.15s ease-in-out;
+            width: $big-svg-size;
+            height: $big-svg-size;
+          }
+        }
+        .link {
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: calc(100% - ($big-svg-size * 1.8));
+          color: transparent;
+          &:hover {
+            background: $link-hover-color;
+            color: $pri-font-color;
+            svg {
+              transform: scale(1.3);
+            }
+          }
+        }
+        .download {
+          bottom: 0;
+          width: 100%;
+          background: $download-color;
+          &:hover:not(.active) {
+            background: $download-hover-color;
+          }
+        }
+      }
+    }
+  }
 }

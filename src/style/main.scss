@@ -1,9 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
 @import './constants';
 @import './home';
 @import './new';
+
+// @font-face {
+//   font-family: 'Inter';
+//   src: url('../../public/fonts/Inter-Variable.ttf');
+// }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100vh;
+  color: $pri-font-color;
+  background: $pri-bg-color;
+  font-family: 'Inter', sans-serif;
+}
+
+#root {
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: $sec-bg-color;
+  .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block: 1.5rem;
+    h1 {
+      font-size: 2rem;
+      font-weight: 900;
+    }
+    h2 {
+      color: $sec-font-color;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  }
+  nav {
+    align-self: stretch;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 0.8rem;
+    width: 100%;
+    li {
+      width: 100%;
+      align-self: stretch;
+      display: flex;
+      a {
+        position: relative;
+        background: $sec-btn-color;
+        padding-block: 0.7rem;
+        padding-left: 0.5rem;
+        color: $pri-font-color;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 700;
+        width: 100%;
+        transition: 0.2s ease-in-out;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: $blue-color;
+          transition: 0.2s ease-in-out;
+          width: 0.5rem;
+          transform-origin: left;
+          transform: scaleX(0);
+        }
+        &:hover {
+          padding-left: 1rem;
+        }
+        &:hover::before {
+          // transform: scaleX(1);
+          left: -0.5rem;
+        }
+      }
+    }
+    li.active {
+      a {
+        background: $ter-btn-color;
+      }
+    }
+  }
+}
+
+.divider {
+  height: 2px;
+  background: $ter-bg-color;
+  margin-bottom: $card-bottom-spacing;
+  margin-top: $card-bottom-spacing * 2;
+}
+
+.download.active {
+  .loader {
+    width: 70%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: block;
+    &::before {
+      content: '';
+      position: absolute;
+      background: $green-color;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      border-radius: 2px;
+      animation: line 1.2s ease-in-out infinite;
+    }
+  }
+  svg {
+    display: none;
+  }
+}
+
+.download {
+  .loader {
+    display: none;
+  }
+  svg {
+    display: block;
+  }
+}
+
+@keyframes line {
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+    right: 0;
+    left: unset;
+  }
 }
