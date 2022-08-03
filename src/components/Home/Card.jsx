@@ -1,5 +1,6 @@
 import React from 'react';
 import { XLg, Link45deg, Download, List } from 'react-bootstrap-icons';
+import { v4 as uuid } from 'uuid';
 import { flag } from 'country-emoji';
 
 const piece = {
@@ -129,7 +130,7 @@ const Card = () => {
         <div className="author">
           {piece.author.length !== 0 ? (
             piece.author.map((person) => (
-              <div>
+              <div key={uuid()}>
                 <h4>{`${person.surname}, ${person.name}${
                   person.role !== '' ? ` (${person.role})` : ''
                 }`}</h4>
@@ -148,7 +149,7 @@ const Card = () => {
         {piece.genre.length !== 0 ? (
           <div className="genres">
             {piece.genre.map((element) => (
-              <div className="genre-item">{element}</div>
+              <div className="genre-item" key={uuid()}>{element}</div>
             ))}
           </div>
         ) : null}
@@ -157,7 +158,7 @@ const Card = () => {
           <div className="comment">{piece.comment}</div>
         ) : null}
         {piece.versions.map((version) => (
-          <div className="version">
+          <div className="version" key={uuid()}>
             {/* <div className="divider"></div> */}
             {version.arrangement_author.length !== 0 ? (
               <h5>
@@ -169,7 +170,7 @@ const Card = () => {
             {version.arrangement_author.length !== 0 ? (
               <div className="arr-author">
                 {version.arrangement_author.map((person) => (
-                  <div>
+                  <div key={uuid()}>
                     <h4>{`${person.surname}, ${person.name}${
                       person.role !== '' ? ` (${person.role})` : ''
                     }`}</h4>
@@ -192,7 +193,7 @@ const Card = () => {
             {version.accompaniment.length !== 0 ? (
               <div className="accompaniment">
                 {version.accompaniment.map((element) => (
-                  <div className="accompaniment-item">{element}</div>
+                  <div className="accompaniment-item" key={uuid()}>{element}</div>
                 ))}
               </div>
             ) : null}

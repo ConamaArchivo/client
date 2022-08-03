@@ -1,189 +1,171 @@
-import React from 'react';
-import { useForm } from "react-hook-form";
+import React, { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { PlusLg, XLg, CloudCheck } from 'react-bootstrap-icons';
+import { v4 as uuid } from 'uuid';
+import Author from './Author';
+import Version from './Version';
+import SelectInput from './SelectInput';
 
 const Form = () => {
+  const { handleSubmit /*register, formState: { errors } */ } = useForm();
+  const onSubmit = (data) => null;
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+  const [authors, setAuthors] = useState(1);
+  const [versions, setVersions] = useState(1);
 
-  console.log(watch("example")); // watch input value by passing the name of it
+  const genresRef = useRef();
+  const authorsRefs = useRef([]);
+  const versionsRefs = useRef([]);
+
+  const getAllStates = () => {
+    authorsRefs.current.forEach((ref) => {
+      if (ref !== null) {
+        console.log('Author Country ', ref.getSelectedCountry());
+      }
+    });
+    console.log('Genre ', genresRef.current.getSelected());
+    versionsRefs.current.forEach((ref) => {
+      if (ref !== null) {
+        console.log('Arr Author Country ', ref.getSelectedArrCountry());
+        console.log('Accompaniment ', ref.getSelectedAccompaniment());
+        console.log('Voices ', ref.getSelectedVoices());
+      }
+    });
+  };
+
+  const handleAddAuthorBtn = () => {
+    setAuthors(authors + 1);
+  };
+  const handleRemoveAuthorBtn = () => {
+    if (authors > 1) setAuthors(authors - 1);
+  };
+
+  const handleAddVersionBtn = () => {
+    setVersions(versions + 1);
+  };
+  const handleRemoveVersionBtn = () => {
+    if (versions > 1) setVersions(versions - 1);
+  };
+
+  const countryOptions = [
+    { value: 'AR', label: 'País1' },
+    { value: 'AR', label: 'País2' },
+    { value: 'AR', label: 'País3' },
+    { value: 'AR', label: 'País4' },
+  ];
+
+  const genreOptions = [
+    { value: 'género1', label: 'Género1' },
+    { value: 'género2', label: 'Género2' },
+    { value: 'género3', label: 'Género3' },
+  ];
+
+  const accompanimentOptions = [
+    { value: 'acompañamiento1', label: 'Acompañamiento1' },
+    { value: 'acompañamiento2', label: 'Acompañamiento2' },
+    { value: 'acompañamiento3', label: 'Acompañamiento3' },
+  ];
+
+  const voicesOptions = [
+    { value: 'mixto', label: 'Mixto' },
+    { value: 'masculino', label: 'Masculino' },
+    { value: 'femenino', label: 'Femenino' },
+  ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div class="general">
-        <div class="field">
-          <label for="title" class="big-label">Título</label>
-          <input type="text" id="title" name="title" />
+      <div className="general">
+        <label className="bl vg ">
+          Título
+          <input type="text" name="title" />
+        </label>
+        <h3 className="bt authors-title">{authors > 1 ? 'Autores' : 'Autor'}</h3>
+        <div className="authors">
+          {Array.from(Array(authors)).map((e, i) => (
+            <Author
+              countryOptions={countryOptions}
+              target="author"
+              v="0"
+              i={i}
+              key={uuid()}
+              ref={(el) => (authorsRefs.current[i] = el)}
+            />
+          ))}
         </div>
-        <div class="authors">
-          <h3 class="big-label">Autor</h3>
-          <div class="author">
-            <div class="field">
-              <label for="author-name1">Nombre</label>
-              <input type="text" id="author-name1" name="author-name1" />
-            </div>
-            <div class="field">
-              <label for="author-surname1">Apellido</label>
-              <input type="text" id="author-surname1" name="author-surname1" />
-            </div>
-            <div class="field">
-              <label for="author-country1">Nacionalidad</label>
-              <select id="author-country1" name="author-country1">
-
-              </select>
-            </div>
-            <div class="field">
-              <label for="author-role1">Rol</label>
-              <input type="text" id="author-role1" name="author-role1" />
-            </div>
-            <div class="divider"></div>
-            <button type="button" class="add-author">&#43;</button>
-          </div>
+        <div className="btns">
+          <button className="add" onClick={handleAddAuthorBtn}>
+            <PlusLg /> Agregar autor
+          </button>
+          {authors > 1 ? (
+            <button className="remove" onClick={handleRemoveAuthorBtn}>
+              <XLg /> Quitar autor
+            </button>
+          ) : null}
         </div>
-        <div class="group">
-          <div class="repertoire">
-            <h3 class="big-label">Repertorio</h3>
-            <div>
-              <input
-                type="radio"
-                id="academic-rep"
-                name="repertoire"
-                value="Académico"
-              />
-              <label for="academic-rep">Académico</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="popular-rep"
-                name="repertoire"
-                value="Popular"
-              />
-              <label for="popular-rep">Popular</label>
-            </div>
-          </div>
-          <div class="genres field">
-            <h3 class="big-label">Género</h3>
-            <div class="genres-list">
-              <input type="text" name="genre" />
-              <button type="button" class="add-genre">&#43;</button>
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <label for="comment" class="big-label">Observaciones</label>
-          <textarea rows="3" id="comment" name="comment"> </textarea>
-        </div>
-      </div>
-      <div class="versions">
-        <div class="version">
-          <div class="arr-authors">
-            <div class="arrangement big-label">
-              <h3>Arreglador</h3>
-              <label class="switch">
-                <input type="checkbox" />
-                <span class="slider"></span>
+        <div className="group-alt">
+          <div className="hg">
+            <div className="repertoire vg">
+              <h3 className="bt">Repertorio</h3>
+              <label htmlFor="hg academic-rep">
+                <input
+                  type="radio"
+                  id="academic-rep"
+                  name="repertoire"
+                  value="académico"
+                  defaultChecked
+                />
+                Académico
+              </label>
+              <label htmlFor="hg popular-rep">
+                <input
+                  type="radio"
+                  id="popular-rep"
+                  name="repertoire"
+                  value="popular"
+                />
+                Popular
               </label>
             </div>
-            <div class="arr-author">
-              <div class="field">
-                <label for="arr-author-name1">Nombre</label>
-                <input
-                  type="text"
-                  id="arr-author-name1"
-                  name="arr-author-name1"
-                />
-              </div>
-              <div class="field">
-                <label for="arr-author-surname1">Apellido</label>
-                <input
-                  type="text"
-                  id="arr-author-surname1"
-                  name="arr-author-surname1"
-                />
-              </div>
-              <div class="field">
-                <label for="arr-author-country1">Nacionalidad</label>
-                <select id="arr-author-country1" name="arr-author-country1">
-
-                </select>
-              </div>
-              <div class="field">
-                <label for="arr-author-role1">Rol</label>
-                <input
-                  type="text"
-                  id="arr-author-role1"
-                  name="arr-author-role1"
-                />
-              </div>
-              <div class="divider"></div>
-              <button type="button" class="add-arr-author">&#43;</button>
+            <div className="genre vg">
+              <h3 className="bt">Género</h3>
+              <SelectInput
+                options={genreOptions}
+                isMulti={true}
+                isCreatable={true}
+                ref={genresRef}
+              />
             </div>
           </div>
-          <div class="group voices-group">
-            <div class="voices">
-              <h3 class="big-label">Voces</h3>
-              <div class="group">
-                <select id="gender" name="gender">
-                  <option value="Mixto">Mixto</option>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Femenino">Femenino</option>
-                </select>
-                <span>a</span>
-                <input
-                  type="number"
-                  id="num-voices"
-                  name="num-voices"
-                  placeholder="n° de voces"
-                />
-                <span>voces</span>
-              </div>
-            </div>
-            <div class="field accompaniment">
-              <label class="big-label" for="accompaniment"
-                >Acompañamiento</label
-              >
-              <div class="genres-list">
-                <input type="text" id="accompaniment" name="accompaniment" />
-                <button type="button" class="add-accompaniment">&#43;</button>
-              </div>
-            </div>
-          </div>
-          <div class="group files">
-            <div class="field">
-              <h3 class="big-label">Archivo</h3>
-              <div class="group">
-                <div class="field">
-                  <label for="originals">Originales</label>
-                  <input type="number" id="originals" name="originals" />
-                </div>
-                <div class="field">
-                  <label for="copies">Copias</label>
-                  <input type="number" id="copies" name="copies" />
-                </div>
-              </div>
-              <label class="pdf" for="pdf">Subir PDF</label>
-              <input type="file" id="pdf" name="pdf" />
-            </div>
-            <div class="field">
-              <h3 class="big-label">Ubicación</h3>
-              <div class="group">
-                <div class="field">
-                  <label for="cabinet">Armario</label>
-                  <input type="text" id="cabinet" name="cabinet" />
-                </div>
-                <div class="field">
-                  <label for="box">Caja</label>
-                  <input type="text" id="box" name="box" />
-                </div>
-              </div>
-            </div>
-          </div>
+          <label className="vg bl">
+            Observaciones
+            <textarea rows="3" name="comment" />
+          </label>
         </div>
-        <div class="buttons">
-          <button type="button" class="add-version">&#43;</button>
-          <input id="save" type="submit" value="Guardar" />
+      </div>
+      <div className="versions">
+        {Array.from(Array(versions)).map((e, i) => (
+          <Version
+            countryOptions={countryOptions}
+            accompanimentOptions={accompanimentOptions}
+            voicesOptions={voicesOptions}
+            v={i + 1}
+            key={uuid()}
+            ref={(el) => (versionsRefs.current[i] = el)}
+          />
+        ))}
+        <div className="btns">
+          <button className="add" onClick={handleAddVersionBtn}>
+            <PlusLg /> Agregar versión
+          </button>
+          {versions > 1 ? (
+            <button className="remove" onClick={handleRemoveVersionBtn}>
+              <XLg /> Quitar versión
+            </button>
+          ) : null}
         </div>
+        <button id="save" type="submit" onClick={getAllStates}>
+          <CloudCheck /> Guardar
+        </button>
       </div>
     </form>
   );
