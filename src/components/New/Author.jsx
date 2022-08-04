@@ -1,38 +1,64 @@
-import React, { useRef, forwardRef, useImperativeHandle } from 'react';
+import React from 'react';
 import SelectInput from './SelectInput';
 
-const Author = forwardRef(({ countryOptions, target, v, i }, _ref) => {
-  useImperativeHandle(_ref, () => ({
-    getSelectedCountry: () => countryStateRef.current.getSelected(),
-  }));
-
-  const countryStateRef = useRef();
-
+const Author = ({
+  authors,
+  changeAuthors,
+  countryOptions,
+  index,
+  subIndex,
+}) => {
   return (
     <div className="author">
       <label className="vg">
         Nombre
-        <input size="1" type="text" name={`${target}-name-${v}-${i}`} />
+        <input
+          size="1"
+          type="text"
+          index={index}
+          subIndex={subIndex}
+          name="name"
+          value={authors[index].name}
+          onChange={changeAuthors}
+        />
       </label>
       <label className="vg">
         Apellido
-        <input size="1" type="text" name={`${target}-surname-${v}-${i}`} />
+        <input
+          size="1"
+          type="text"
+          index={index}
+          subIndex={subIndex}
+          name="surname"
+          value={authors[index].surname}
+          onChange={changeAuthors}
+        />
       </label>
       <label className="vg">
         Nacionalidad
         <SelectInput
-          options={countryOptions}
           isMulti={false}
           isCreatable={false}
-          ref={countryStateRef}
+          index={index}
+          subIndex={subIndex}
+          name="country"
+          options={countryOptions}
+          setSelected={changeAuthors}
         />
       </label>
       <label className="vg">
         Rol
-        <input size="1" type="text" name={`${target}-role-${v}-${i}`} />
+        <input
+          size="1"
+          type="text"
+          index={index}
+          subIndex={subIndex}
+          name="role"
+          value={authors[index].role}
+          onChange={changeAuthors}
+        />
       </label>
     </div>
   );
-});
-
+};
 export default Author;

@@ -1,13 +1,31 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React from 'react';
 import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 
-const SelectInput = forwardRef(({ options, isMulti, isCreatable }, _ref) => {
-  const [selected, setSelected] = useState(isCreatable ? [] : {});
-
-  useImperativeHandle(_ref, () => ({
-    getSelected: () => selected,
-  }));
+const SelectInput = ({
+  options,
+  isMulti,
+  isCreatable,
+  name,
+  setSelected,
+  index,
+  subIndex
+}) => {
+  const setValues = (event) => {
+    let selected = isCreatable ? [] : '';
+    if (isCreatable) {
+      event.forEach((option) => selected.push(option.value));
+    } else selected = event.value;
+    const eventResponse = {
+      target: {
+        name: name,
+        index: index,
+        subIndex: subIndex,
+        value: selected,
+      },
+    };
+    setSelected(eventResponse);
+  };
 
   const customStyles = (provided) => {
     return {
@@ -33,7 +51,7 @@ const SelectInput = forwardRef(({ options, isMulti, isCreatable }, _ref) => {
     isMulti: isMulti,
     options: options,
     theme: customStyles,
-    onChange: setSelected,
+    onChange: setValues,
     placeholder: '',
     formatCreateLabel: (userInput) => `Agregar "${userInput}"`,
     noOptionsMessage: () => 'No hay opciones',
@@ -48,6 +66,6 @@ const SelectInput = forwardRef(({ options, isMulti, isCreatable }, _ref) => {
   ) : (
     <Select {...selectProps} />
   );
-});
+};
 
 export default SelectInput;

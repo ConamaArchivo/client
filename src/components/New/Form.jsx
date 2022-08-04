@@ -1,50 +1,118 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PlusLg, XLg, CloudCheck } from 'react-bootstrap-icons';
-import { v4 as uuid } from 'uuid';
 import Author from './Author';
 import Version from './Version';
 import SelectInput from './SelectInput';
 
 const Form = () => {
   const { handleSubmit /*register, formState: { errors } */ } = useForm();
-  const onSubmit = (data) => null;
+  const onSubmit = () => console.log(getFullForm());
 
-  const [authors, setAuthors] = useState(1);
-  const [versions, setVersions] = useState(1);
+  const getFullForm = () => {
+    let data = {...generalInfo}
+    data[0].authors = authors
+    data[0].versions = versions
+    return data;
+  }
 
-  const genresRef = useRef();
-  const authorsRefs = useRef([]);
-  const versionsRefs = useRef([]);
-
-  const getAllStates = () => {
-    authorsRefs.current.forEach((ref) => {
-      if (ref !== null) {
-        console.log('Author Country ', ref.getSelectedCountry());
-      }
-    });
-    console.log('Genre ', genresRef.current.getSelected());
-    versionsRefs.current.forEach((ref) => {
-      if (ref !== null) {
-        console.log('Arr Author Country ', ref.getSelectedArrCountry());
-        console.log('Accompaniment ', ref.getSelectedAccompaniment());
-        console.log('Voices ', ref.getSelectedVoices());
-      }
-    });
+  const getValuesFromEvent = (event) => {
+    let index = event.target.index;
+    if (index === undefined) {
+      index = parseInt(event.target.getAttribute('index'));
+    }
+    return { name: event.target.name, value: event.target.value, index: index };
   };
 
+  const [generalInfo, setGeneralInfo] = useState([
+    {
+      title: '',
+      genre: [],
+      repertoire: '',
+      comment: '',
+    },
+  ]);
+
+  const changeGeneralInfo = (event) => {
+    let newObject = {...generalInfo};
+    newObject[0][event.target.name] = event.target.value;
+    setGeneralInfo(newObject);
+  };
+
+  const changeRepertoire = (event) => {
+    let newObject = {...generalInfo};
+    newObject[0].repertoire = event.target.value;
+    setGeneralInfo(newObject);
+  };
+
+  const [authors, setAuthors] = useState([
+    {
+      name: '',
+      surname: '',
+      country: '',
+      role: '',
+    },
+  ]);
   const handleAddAuthorBtn = () => {
-    setAuthors(authors + 1);
+    setAuthors((authors) => [
+      ...authors,
+      {
+        name: '',
+        surname: '',
+        country: '',
+        role: '',
+      },
+    ]);
   };
   const handleRemoveAuthorBtn = () => {
-    if (authors > 1) setAuthors(authors - 1);
+    let newArray = [...authors];
+    newArray.pop();
+    setAuthors(newArray);
+  };
+  const changeAuthors = (event) => {
+    const { name, value, index } = getValuesFromEvent(event);
+    let newArray = [...authors];
+    newArray[index][name] = value;
+    setAuthors(newArray);
   };
 
+  const [versions, setVersions] = useState([
+    {
+      gender: '',
+      num_of_voices: '',
+      accompaniment: [],
+      originals: '',
+      copies: '',
+      cabinet: '',
+      box: '',
+      arr_author: [],
+    },
+  ]);
   const handleAddVersionBtn = () => {
-    setVersions(versions + 1);
+    setVersions((versions) => [
+      ...versions,
+      {
+        gender: '',
+        num_of_voices: '',
+        accompaniment: [],
+        originals: '',
+        copies: '',
+        cabinet: '',
+        box: '',
+        arr_author: [],
+      },
+    ]);
   };
   const handleRemoveVersionBtn = () => {
-    if (versions > 1) setVersions(versions - 1);
+    let newArray = [...versions];
+    newArray.pop();
+    setVersions(newArray);
+  };
+  const changeVersions = (event) => {
+    const { name, value, index } = getValuesFromEvent(event);
+    let newArray = [...versions];
+    newArray[index][name] = value;
+    setVersions(newArray);
   };
 
   const countryOptions = [
@@ -77,18 +145,26 @@ const Form = () => {
       <div className="general">
         <label className="bl vg ">
           Título
-          <input type="text" name="title" />
+          <input
+            type="text"
+            name="title"
+            value={generalInfo.title}
+            onChange={changeGeneralInfo}
+          />
         </label>
-        <h3 className="bt authors-title">{authors > 1 ? 'Autores' : 'Autor'}</h3>
+        <h3 className="bt authors-title">
+          {authors.length > 1 ? 'Autores' : 'Autor'}
+        </h3>
         <div className="authors">
-          {Array.from(Array(authors)).map((e, i) => (
+          {authors.map((e, i) => (
             <Author
               countryOptions={countryOptions}
               target="author"
-              v="0"
-              i={i}
-              key={uuid()}
-              ref={(el) => (authorsRefs.current[i] = el)}
+              index={i}
+              key={`author${i}`}
+              authors={authors}
+              subIndex=""
+              changeAuthors={changeAuthors}
             />
           ))}
         </div>
@@ -96,7 +172,7 @@ const Form = () => {
           <button className="add" onClick={handleAddAuthorBtn}>
             <PlusLg /> Agregar autor
           </button>
-          {authors > 1 ? (
+          {authors.length > 1 ? (
             <button className="remove" onClick={handleRemoveAuthorBtn}>
               <XLg /> Quitar autor
             </button>
@@ -106,21 +182,21 @@ const Form = () => {
           <div className="hg">
             <div className="repertoire vg">
               <h3 className="bt">Repertorio</h3>
-              <label htmlFor="hg academic-rep">
+              <label >
                 <input
                   type="radio"
-                  id="academic-rep"
                   name="repertoire"
                   value="académico"
                   defaultChecked
+                  onChange={changeRepertoire}
                 />
                 Académico
               </label>
-              <label htmlFor="hg popular-rep">
+              <label >
                 <input
                   type="radio"
-                  id="popular-rep"
                   name="repertoire"
+                  onChange={changeRepertoire}
                   value="popular"
                 />
                 Popular
@@ -132,38 +208,46 @@ const Form = () => {
                 options={genreOptions}
                 isMulti={true}
                 isCreatable={true}
-                ref={genresRef}
+                name="genre"
+                setSelected={changeGeneralInfo}
               />
             </div>
           </div>
           <label className="vg bl">
             Observaciones
-            <textarea rows="3" name="comment" />
+            <textarea
+              rows="3"
+              name="comment"
+              value={generalInfo.comment}
+              onChange={changeGeneralInfo}
+            />
           </label>
         </div>
       </div>
       <div className="versions">
-        {Array.from(Array(versions)).map((e, i) => (
+        {versions.map((e, i) => (
           <Version
             countryOptions={countryOptions}
             accompanimentOptions={accompanimentOptions}
             voicesOptions={voicesOptions}
-            v={i + 1}
-            key={uuid()}
-            ref={(el) => (versionsRefs.current[i] = el)}
+            subIndex={i}
+            key={`version${i}`}
+            versions={versions}
+            changeVersions={changeVersions}
+            setVersions={setVersions}
           />
         ))}
         <div className="btns">
           <button className="add" onClick={handleAddVersionBtn}>
             <PlusLg /> Agregar versión
           </button>
-          {versions > 1 ? (
+          {versions.length > 1 ? (
             <button className="remove" onClick={handleRemoveVersionBtn}>
               <XLg /> Quitar versión
             </button>
           ) : null}
         </div>
-        <button id="save" type="submit" onClick={getAllStates}>
+        <button id="save" type="submit">
           <CloudCheck /> Guardar
         </button>
       </div>
