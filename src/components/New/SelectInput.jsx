@@ -9,7 +9,7 @@ const SelectInput = ({
   name,
   setSelected,
   index,
-  subIndex
+  subindex
 }) => {
   const setValues = (event) => {
     let selected = isCreatable ? [] : '';
@@ -20,7 +20,7 @@ const SelectInput = ({
       target: {
         name: name,
         index: index,
-        subIndex: subIndex,
+        subindex: subindex,
         value: selected,
       },
     };

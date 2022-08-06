@@ -6,7 +6,7 @@ const Author = ({
   changeAuthors,
   countryOptions,
   index,
-  subIndex,
+  subindex,
 }) => {
   return (
     <div className="author">
@@ -16,7 +16,7 @@ const Author = ({
           size="1"
           type="text"
           index={index}
-          subIndex={subIndex}
+          subindex={subindex}
           name="name"
           value={authors[index].name}
           onChange={changeAuthors}
@@ -28,7 +28,7 @@ const Author = ({
           size="1"
           type="text"
           index={index}
-          subIndex={subIndex}
+          subindex={subindex}
           name="surname"
           value={authors[index].surname}
           onChange={changeAuthors}
@@ -40,7 +40,7 @@ const Author = ({
           isMulti={false}
           isCreatable={false}
           index={index}
-          subIndex={subIndex}
+          subindex={subindex}
           name="country"
           options={countryOptions}
           setSelected={changeAuthors}
@@ -52,7 +52,7 @@ const Author = ({
           size="1"
           type="text"
           index={index}
-          subIndex={subIndex}
+          subindex={subindex}
           name="role"
           value={authors[index].role}
           onChange={changeAuthors}

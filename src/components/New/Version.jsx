@@ -1,7 +1,8 @@
 import React from 'react';
-import { PlusLg, XLg, Upload } from 'react-bootstrap-icons';
+import { PlusLg, XLg } from 'react-bootstrap-icons';
 import Author from './Author';
 import SelectInput from './SelectInput';
+import FileUpload from './FIleUpload';
 
 const Version = ({
   versions,
@@ -10,11 +11,14 @@ const Version = ({
   countryOptions,
   accompanimentOptions,
   voicesOptions,
-  subIndex,
+  subindex,
+  setFiles,
+  files
 }) => {
-  const handleAddArrAuthorBtn = () => {
+  const handleAddArrAuthorBtn = (e) => {
+    e.preventDefault();
     let newArray = [...versions];
-    newArray[subIndex].arr_author.push({
+    newArray[subindex].arr_author.push({
       name: '',
       surname: '',
       country: '',
@@ -23,16 +27,17 @@ const Version = ({
     setVersions(newArray);
   };
 
-  const handleRemoveArrAuthorBtn = () => {
+  const handleRemoveArrAuthorBtn = (e) => {
+    e.preventDefault();
     let newArray = [...versions];
-    newArray[subIndex].arr_author.pop();
+    newArray[subindex].arr_author.pop();
     setVersions(newArray);
   };
 
   const getValuesFromEvent = (event) => {
-    let subIndex = event.target.subIndex;
-    if (subIndex === undefined) {
-      subIndex = parseInt(event.target.getAttribute('subIndex'));
+    let subindex = event.target.subindex;
+    if (subindex === undefined) {
+      subindex = parseInt(event.target.getAttribute('subindex'));
     }
     let index = event.target.index;
     if (index === undefined) {
@@ -42,48 +47,48 @@ const Version = ({
       name: event.target.name,
       value: event.target.value,
       index: index,
-      subIndex: subIndex,
+      subindex: subindex,
     };
   };
 
   const changeArrAuthors = (event) => {
-    const { name, value, index, subIndex } = getValuesFromEvent(event);
+    const { name, value, index, subindex } = getValuesFromEvent(event);
     let newArray = [...versions];
-    newArray[subIndex].arr_author[index][name] = value;
+    newArray[subindex].arr_author[index][name] = value;
     setVersions(newArray);
   };
 
   return (
     <div className="version">
-      {versions[subIndex].arr_author.length !== 0 ? (
+      {versions[subindex].arr_author.length !== 0 ? (
         <h3 className="bt">
-          {versions[subIndex].arr_author.length > 1
+          {versions[subindex].arr_author.length > 1
             ? 'Arregladores'
             : 'Arreglador'}
         </h3>
       ) : null}
       <div className="authors">
-        {versions[subIndex].arr_author.map((e, i) => (
+        {versions[subindex].arr_author.map((e, i) => (
           <Author
             countryOptions={countryOptions}
             target="arr-author"
             index={i}
-            subIndex={subIndex}
+            subindex={subindex}
             key={`arr_author${i}`}
-            authors={versions[subIndex].arr_author}
+            authors={versions[subindex].arr_author}
             changeAuthors={changeArrAuthors}
           />
         ))}
       </div>
       <div
         className={`btns${
-          versions[subIndex].arr_author.length === 0 ? ' no-margin' : ''
+          versions[subindex].arr_author.length === 0 ? ' no-margin' : ''
         }`}
       >
         <button className="add" onClick={handleAddArrAuthorBtn}>
           <PlusLg /> Agregar arreglador
         </button>
-        {versions[subIndex].arr_author.length > 0 ? (
+        {versions[subindex].arr_author.length > 0 ? (
           <button className="remove" onClick={handleRemoveArrAuthorBtn}>
             <XLg /> Quitar arreglador
           </button>
@@ -98,7 +103,7 @@ const Version = ({
                 options={voicesOptions}
                 isMulti={false}
                 isCreatable={false}
-                index={subIndex}
+                index={subindex}
                 name="gender"
                 setSelected={changeVersions}
               />
@@ -108,9 +113,9 @@ const Version = ({
               className="number-select"
               type="number"
               placeholder="n° de voces"
-              index={subIndex}
+              index={subindex}
               name="num_of_voices"
-              value={versions[subIndex].num_of_voices}
+              value={versions[subindex].num_of_voices}
               onChange={changeVersions}
             />
             <span>voces</span>
@@ -122,7 +127,7 @@ const Version = ({
             options={accompanimentOptions}
             isMulti={true}
             isCreatable={true}
-            index={subIndex}
+            index={subindex}
             name="accompaniment"
             setSelected={changeVersions}
           />
@@ -134,9 +139,9 @@ const Version = ({
               Originales
               <input
                 type="number"
-                index={subIndex}
+                index={subindex}
                 name="originals"
-                value={versions[subIndex].originals}
+                value={versions[subindex].originals}
                 onChange={changeVersions}
               />
             </label>
@@ -144,9 +149,9 @@ const Version = ({
               Copias
               <input
                 type="number"
-                index={subIndex}
+                index={subindex}
                 name="copies"
-                value={versions[subIndex].copies}
+                value={versions[subindex].copies}
                 onChange={changeVersions}
               />
             </label>
@@ -160,9 +165,9 @@ const Version = ({
               Armario
               <input
                 type="text"
-                index={subIndex}
+                index={subindex}
                 name="cabinet"
-                value={versions[subIndex].cabinet}
+                value={versions[subindex].cabinet}
                 onChange={changeVersions}
               />
             </label>
@@ -170,19 +175,16 @@ const Version = ({
               Caja
               <input
                 type="text"
-                index={subIndex}
+                index={subindex}
                 name="box"
-                value={versions[subIndex].box}
+                value={versions[subindex].box}
                 onChange={changeVersions}
               />
             </label>
           </div>
         </div>
       </div>
-      <label className="upload-pdf">
-        <Upload /> Subir PDF
-        <input type="file" index={subIndex} accept="application/pdf" />
-      </label>
+      <FileUpload index={subindex} setFiles={setFiles} files={files} />
     </div>
   );
 };

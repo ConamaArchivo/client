@@ -1,20 +1,55 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { PlusLg, XLg, CloudCheck } from 'react-bootstrap-icons';
 import Author from './Author';
 import Version from './Version';
 import SelectInput from './SelectInput';
+import axios from 'axios';
 
 const Form = () => {
-  const { handleSubmit /*register, formState: { errors } */ } = useForm();
-  const onSubmit = () => console.log(getFullForm());
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const data = getFullForm();
+    buildFormData(formData, data);
+    files.forEach((file, index) => {
+      formData.append(`file-${index}`, file);
+    });
+    try {
+      const res = await axios.post('/nueva-entrada', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(res.data);
+    } catch (error) {}
+  };
+
+  function buildFormData(formData, data, parentKey) {
+    if (
+      data &&
+      typeof data === 'object' &&
+      !(data instanceof Date) &&
+      !(data instanceof File)
+    ) {
+      Object.keys(data).forEach((key) => {
+        buildFormData(
+          formData,
+          data[key],
+          parentKey ? `${parentKey}[${key}]` : key
+        );
+      });
+    } else {
+      const value = data == null ? '' : data;
+      formData.append(parentKey, value);
+    }
+  }
 
   const getFullForm = () => {
-    let data = {...generalInfo}
-    data[0].authors = authors
-    data[0].versions = versions
+    let data = { ...generalInfo }[0];
+    data.authors = authors;
+    data.versions = versions;
     return data;
-  }
+  };
 
   const getValuesFromEvent = (event) => {
     let index = event.target.index;
@@ -28,19 +63,19 @@ const Form = () => {
     {
       title: '',
       genre: [],
-      repertoire: '',
+      repertoire: 'académico',
       comment: '',
     },
   ]);
 
   const changeGeneralInfo = (event) => {
-    let newObject = {...generalInfo};
+    let newObject = { ...generalInfo };
     newObject[0][event.target.name] = event.target.value;
     setGeneralInfo(newObject);
   };
 
   const changeRepertoire = (event) => {
-    let newObject = {...generalInfo};
+    let newObject = { ...generalInfo };
     newObject[0].repertoire = event.target.value;
     setGeneralInfo(newObject);
   };
@@ -53,7 +88,9 @@ const Form = () => {
       role: '',
     },
   ]);
-  const handleAddAuthorBtn = () => {
+  const handleAddAuthorBtn = (e) => {
+    e.preventDefault();
+
     setAuthors((authors) => [
       ...authors,
       {
@@ -64,7 +101,9 @@ const Form = () => {
       },
     ]);
   };
-  const handleRemoveAuthorBtn = () => {
+  const handleRemoveAuthorBtn = (e) => {
+    e.preventDefault();
+
     let newArray = [...authors];
     newArray.pop();
     setAuthors(newArray);
@@ -88,7 +127,8 @@ const Form = () => {
       arr_author: [],
     },
   ]);
-  const handleAddVersionBtn = () => {
+  const handleAddVersionBtn = (e) => {
+    e.preventDefault();
     setVersions((versions) => [
       ...versions,
       {
@@ -103,7 +143,8 @@ const Form = () => {
       },
     ]);
   };
-  const handleRemoveVersionBtn = () => {
+  const handleRemoveVersionBtn = (e) => {
+    e.preventDefault();
     let newArray = [...versions];
     newArray.pop();
     setVersions(newArray);
@@ -114,6 +155,9 @@ const Form = () => {
     newArray[index][name] = value;
     setVersions(newArray);
   };
+
+  const [files, setFiles] = useState([]);
+  // const [filesname, setFilesname] = useState('');
 
   const countryOptions = [
     { value: 'AR', label: 'País1' },
@@ -141,13 +185,14 @@ const Form = () => {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit}>
       <div className="general">
         <label className="bl vg ">
           Título
           <input
             type="text"
             name="title"
+            required
             value={generalInfo.title}
             onChange={changeGeneralInfo}
           />
@@ -163,7 +208,7 @@ const Form = () => {
               index={i}
               key={`author${i}`}
               authors={authors}
-              subIndex=""
+              subindex=""
               changeAuthors={changeAuthors}
             />
           ))}
@@ -182,7 +227,7 @@ const Form = () => {
           <div className="hg">
             <div className="repertoire vg">
               <h3 className="bt">Repertorio</h3>
-              <label >
+              <label>
                 <input
                   type="radio"
                   name="repertoire"
@@ -192,7 +237,7 @@ const Form = () => {
                 />
                 Académico
               </label>
-              <label >
+              <label>
                 <input
                   type="radio"
                   name="repertoire"
@@ -230,11 +275,13 @@ const Form = () => {
             countryOptions={countryOptions}
             accompanimentOptions={accompanimentOptions}
             voicesOptions={voicesOptions}
-            subIndex={i}
+            subindex={i}
             key={`version${i}`}
             versions={versions}
             changeVersions={changeVersions}
             setVersions={setVersions}
+            setFiles={setFiles}
+            files={files}
           />
         ))}
         <div className="btns">
