@@ -5,7 +5,16 @@ import Version from './Version';
 import SelectInput from './SelectInput';
 import axios from 'axios';
 
-const Form = () => {
+const Form = ({
+  countryOptions,
+  genreOptions,
+  accompanimentOptions,
+  voicesOptions,
+  nameOptions,
+  surnameOptions,
+  arrNameOptions,
+  arrSurnameOptions
+}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -157,32 +166,6 @@ const Form = () => {
   };
 
   const [files, setFiles] = useState([]);
-  // const [filesname, setFilesname] = useState('');
-
-  const countryOptions = [
-    { value: 'AR', label: 'País1' },
-    { value: 'AR', label: 'País2' },
-    { value: 'AR', label: 'País3' },
-    { value: 'AR', label: 'País4' },
-  ];
-
-  const genreOptions = [
-    { value: 'género1', label: 'Género1' },
-    { value: 'género2', label: 'Género2' },
-    { value: 'género3', label: 'Género3' },
-  ];
-
-  const accompanimentOptions = [
-    { value: 'acompañamiento1', label: 'Acompañamiento1' },
-    { value: 'acompañamiento2', label: 'Acompañamiento2' },
-    { value: 'acompañamiento3', label: 'Acompañamiento3' },
-  ];
-
-  const voicesOptions = [
-    { value: 'mixto', label: 'Mixto' },
-    { value: 'masculino', label: 'Masculino' },
-    { value: 'femenino', label: 'Femenino' },
-  ];
 
   return (
     <form onSubmit={handleSubmit}>
@@ -210,6 +193,8 @@ const Form = () => {
               authors={authors}
               subindex=""
               changeAuthors={changeAuthors}
+              nameOptions={nameOptions}
+              surnameOptions={surnameOptions}
             />
           ))}
         </div>

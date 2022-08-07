@@ -7,12 +7,15 @@ const Author = ({
   countryOptions,
   index,
   subindex,
+  nameOptions,
+  surnameOptions,
 }) => {
   return (
     <div className="author">
       <label className="vg">
         Nombre
         <input
+          id="data"
           size="1"
           type="text"
           index={index}
