@@ -14,7 +14,7 @@ const New = () => {
   const [arrSurnameOptions, setArrSurnameOptions] = useState([]);
 
   useEffect(() => {
-    const getOptions = async (e) => {
+    const getOptions = async () => {
       try {
         const res = await axios.get('/nueva-entrada', {});
         console.log(res.data);

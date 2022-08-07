@@ -3,6 +3,8 @@
   grid-template-columns: 2fr 1fr;
   height: 100vh;
   .table-wrapper {
+  overflow-y: scroll;
+
     padding: 1rem;
     table {
       border-collapse: collapse;
@@ -20,6 +22,9 @@
         padding: 0.5rem;
       }
     }
+  }
+  .table-wrapper:only-child {
+    grid-column-end: span 2;
   }
 }
 

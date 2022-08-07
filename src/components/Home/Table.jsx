@@ -1,24 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-function Table() {
-  const data = useMemo(
-    () => [
-      {
-        title: 'Obra 1',
-        author: 'Autor 1',
-      },
-      {
-        title: 'Obra 2',
-        author: 'Autor 2',
-      },
-      {
-        title: 'Obra 3',
-        author: 'Autor 3',
-      },
-    ],
-    []
-  );
+function Table({ pieces, setSelectedPiece }) {
+  const data = useMemo(() => pieces, [pieces]);
 
   const columns = useMemo(
     () => [
@@ -28,7 +12,7 @@ function Table() {
       },
       {
         Header: 'Autor',
-        accessor: 'author',
+        accessor: 'authors[0].name',
       },
     ],
     []
@@ -53,9 +37,14 @@ function Table() {
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                {...row.getRowProps()}
+                onClick={() => setSelectedPiece(row.original)}
+              >
                 {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  );
                 })}
               </tr>
             );
