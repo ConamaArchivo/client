@@ -3,8 +3,7 @@
   grid-template-columns: 2fr 1fr;
   height: 100vh;
   .table-wrapper {
-  overflow-y: scroll;
-
+  overflow-y: auto;
     padding: 1rem;
     table {
       border-collapse: collapse;
@@ -29,13 +28,17 @@
 }
 
 .card-wrapper {
-  overflow-y: scroll;
+  overflow-y: auto;
+  height: 100%;
+  background: $sec-bg-color;
+
   .card {
     background: $sec-bg-color;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding: $card-padding;
+    // height: 100%;
     .card-btns {
       display: flex;
       justify-content: space-between;
@@ -87,7 +90,7 @@
           cursor: pointer;
           height: min-content;
           &::before {
-            content: attr(data-code);
+            content: attr(data-country);
             position: absolute;
             top: -0.2rem;
             right: 140%;

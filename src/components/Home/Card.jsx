@@ -1,8 +1,10 @@
 import React from 'react';
 import { XLg, Link45deg, Download, List } from 'react-bootstrap-icons';
 import { v4 as uuid } from 'uuid';
-import { flag } from 'country-emoji';
 import { Buffer } from 'buffer';
+import { flag } from 'country-emoji';
+const countries = require('i18n-iso-countries');
+countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
 const Card = ({ selectedPiece, setSelectedPiece }) => {
   if (Object.keys(selectedPiece).length !== 0) {
@@ -31,8 +33,12 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
                   <h4>{`${person.surname}, ${person.name}${
                     person.role !== '' ? ` (${person.role})` : ''
                   }`}</h4>
-                  <span data-code={person.country_code}>
-                    {flag(person.country_code)}
+                  <span
+                    data-country={countries.getName(person.country, 'es', {
+                      select: 'alias',
+                    })}
+                  >
+                    {flag(person.country)}
                   </span>
                 </div>
               ))
@@ -75,8 +81,12 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
                       <h4>{`${person.surname}, ${person.name}${
                         person.role !== '' ? ` (${person.role})` : ''
                       }`}</h4>
-                      <span data-code={person.country_code}>
-                        {flag(person.country_code)}
+                      <span
+                        data-country={countries.getName(person.country, 'es', {
+                          select: 'alias',
+                        })}
+                      >
+                        {flag(person.country)}
                       </span>
                     </div>
                   ))}
@@ -84,7 +94,7 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
               ) : null}
               <div className="voices">
                 Para coro {version.voices.gender}
-                {version.voices.num_of_voices !== null
+                {version.voices.num_of_voices !== 0
                   ? ` a ${version.voices.num_of_voices} voces`
                   : ''}
               </div>

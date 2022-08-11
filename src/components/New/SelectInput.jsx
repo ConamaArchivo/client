@@ -9,7 +9,8 @@ const SelectInput = ({
   name,
   setSelected,
   index,
-  subindex
+  subindex,
+  defaultValue,
 }) => {
   const setValues = (event) => {
     let selected = isCreatable ? [] : '';
@@ -47,6 +48,7 @@ const SelectInput = ({
   };
 
   const selectProps = {
+    defaultValue:defaultValue,
     isSearchable: true,
     isMulti: isMulti,
     options: options,

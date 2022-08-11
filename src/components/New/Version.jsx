@@ -106,6 +106,7 @@ const Version = ({
                 index={subindex}
                 name="gender"
                 setSelected={changeVersions}
+                defaultValue={voicesOptions[0]}
               />
             </div>
             <span>a</span>

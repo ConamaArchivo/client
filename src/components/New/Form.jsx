@@ -72,7 +72,7 @@ const Form = ({
     {
       title: '',
       genre: [],
-      repertoire: 'académico',
+      repertoire: '',
       comment: '',
     },
   ]);
@@ -126,7 +126,7 @@ const Form = ({
 
   const [versions, setVersions] = useState([
     {
-      gender: '',
+      gender: 'mixto',
       num_of_voices: '',
       accompaniment: [],
       originals: '',
@@ -141,7 +141,7 @@ const Form = ({
     setVersions((versions) => [
       ...versions,
       {
-        gender: '',
+        gender: 'mixto',
         num_of_voices: '',
         accompaniment: [],
         originals: '',
@@ -217,7 +217,6 @@ const Form = ({
                   type="radio"
                   name="repertoire"
                   value="académico"
-                  defaultChecked
                   onChange={changeRepertoire}
                 />
                 Académico
