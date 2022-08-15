@@ -1,8 +1,16 @@
-import React from 'react';
-import { PlusLg, XLg } from 'react-bootstrap-icons';
+import React, { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
 import Author from './Author';
-import SelectInput from './SelectInput';
-import FileUpload from './FIleUpload';
+import FileUpload from './FileUpload';
+import {
+  MenuItem,
+  Select,
+  TextField,
+  Button,
+  Autocomplete,
+  Switch,
+} from '@mui/material';
 
 const Version = ({
   versions,
@@ -10,13 +18,11 @@ const Version = ({
   setVersions,
   countryOptions,
   accompanimentOptions,
-  voicesOptions,
   subindex,
   setFiles,
-  files
+  files,
 }) => {
-  const handleAddArrAuthorBtn = (e) => {
-    e.preventDefault();
+  const handleAddArrAuthorBtn = () => {
     let newArray = [...versions];
     newArray[subindex].arr_author.push({
       name: '',
@@ -27,8 +33,7 @@ const Version = ({
     setVersions(newArray);
   };
 
-  const handleRemoveArrAuthorBtn = (e) => {
-    e.preventDefault();
+  const handleRemoveArrAuthorBtn = () => {
     let newArray = [...versions];
     newArray[subindex].arr_author.pop();
     setVersions(newArray);
@@ -58,16 +63,27 @@ const Version = ({
     setVersions(newArray);
   };
 
+  const [switchChecked, setSwitchChecked] = useState(false);
+
+  const handleSwitchChange = (event) => {
+    setSwitchChecked(event.target.checked);
+    if (event.target.checked) {
+      handleAddArrAuthorBtn();
+    } else {
+      let newArray = [...versions];
+      newArray[subindex].arr_author = [];
+      setVersions(newArray);
+    }
+  };
   return (
     <div className="version">
-      {versions[subindex].arr_author.length !== 0 ? (
-        <h3 className="bt">
-          {versions[subindex].arr_author.length > 1
-            ? 'Arregladores'
-            : 'Arreglador'}
-        </h3>
-      ) : null}
-      <div className="authors">
+      <h3 className="bt">
+        {versions[subindex].arr_author.length > 1
+          ? 'Arregladores'
+          : 'Arreglador'}
+        <Switch checked={switchChecked} onChange={handleSwitchChange} />
+      </h3>
+      <div className="authors arr">
         {versions[subindex].arr_author.map((e, i) => (
           <Author
             countryOptions={countryOptions}
@@ -80,108 +96,125 @@ const Version = ({
           />
         ))}
       </div>
-      <div
-        className={`btns${
-          versions[subindex].arr_author.length === 0 ? ' no-margin' : ''
-        }`}
-      >
-        <button className="add" onClick={handleAddArrAuthorBtn}>
-          <PlusLg /> Agregar arreglador
-        </button>
-        {versions[subindex].arr_author.length > 0 ? (
-          <button className="remove" onClick={handleRemoveArrAuthorBtn}>
-            <XLg /> Quitar arreglador
-          </button>
-        ) : null}
-      </div>
+      {switchChecked ? (
+        <div className="btns">
+          <Button
+            size="small"
+            variant="contained"
+            startIcon={<AddIcon />}
+            className="add"
+            onClick={handleAddArrAuthorBtn}
+          >
+            Agregar arreglador
+          </Button>
+          {versions[subindex].arr_author.length > 1 ? (
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<ClearIcon />}
+              className="remove"
+              onClick={handleRemoveArrAuthorBtn}
+            >
+              Quitar arreglador
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
       <div className="group">
-        <div className="vg">
+        <div className="vg big-group">
           <h3 className="bt">Voces</h3>
           <div className="hg voices">
             <div className="option-select">
-              <SelectInput
-                options={voicesOptions}
-                isMulti={false}
-                isCreatable={false}
-                index={subindex}
-                name="gender"
-                setSelected={changeVersions}
-                defaultValue={voicesOptions[0]}
-              />
+              <Select
+                value={versions[subindex].gender}
+                onChange={(event) => {
+                  event.target.subindex = subindex;
+                  event.target.name = 'gender';
+                  changeVersions(event);
+                }}
+              >
+                <MenuItem value="mixto">Mixto</MenuItem>
+                <MenuItem value="masculino">Masculino</MenuItem>
+                <MenuItem value="femenino">Femenino</MenuItem>
+              </Select>
             </div>
             <span>a</span>
-            <input
-              className="number-select"
-              type="number"
-              placeholder="n° de voces"
-              index={subindex}
-              name="num_of_voices"
+            <TextField
+              label="n°"
               value={versions[subindex].num_of_voices}
-              onChange={changeVersions}
+              inputProps={{ type: 'number' }}
+              onChange={(event) => {
+                event.target.subindex = subindex;
+                event.target.name = 'num_of_voices';
+                changeVersions(event);
+              }}
             />
             <span>voces</span>
           </div>
         </div>
-        <div className="vg">
-          <h3 className="bt">Acompañamiento</h3>
-          <SelectInput
+        <div className="vg accompaniment-group">
+          <Autocomplete
+            multiple
+            freeSolo
             options={accompanimentOptions}
-            isMulti={true}
-            isCreatable={true}
-            index={subindex}
-            name="accompaniment"
-            setSelected={changeVersions}
+            filterSelectedOptions
+            onChange={(event, newValue) => {
+              event.target.subindex = subindex;
+              event.target.name = 'genre';
+              changeVersions(event, newValue);
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Acompañamiento" />
+            )}
           />
         </div>
         <div className="vg">
           <h3 className="bt">Archivo</h3>
           <div className="hg">
-            <label className="vg">
-              Originales
-              <input
-                type="number"
-                index={subindex}
-                name="originals"
-                value={versions[subindex].originals}
-                onChange={changeVersions}
-              />
-            </label>
-            <label className="vg">
-              Copias
-              <input
-                type="number"
-                index={subindex}
-                name="copies"
-                value={versions[subindex].copies}
-                onChange={changeVersions}
-              />
-            </label>
+            <TextField
+              label="Originales"
+              value={versions[subindex].originals}
+              inputProps={{ type: 'number' }}
+              onChange={(event) => {
+                event.target.subindex = subindex;
+                event.target.name = 'originals';
+                changeVersions(event);
+              }}
+            />
+            <TextField
+              label="Copias"
+              value={versions[subindex].copies}
+              inputProps={{ type: 'number' }}
+              onChange={(event) => {
+                event.target.subindex = subindex;
+                event.target.name = 'copies';
+                changeVersions(event);
+              }}
+            />
           </div>
         </div>
 
         <div className="vg">
           <h3 className="bt">Ubicación</h3>
           <div className="hg">
-            <label className="vg">
-              Armario
-              <input
-                type="text"
-                index={subindex}
-                name="cabinet"
-                value={versions[subindex].cabinet}
-                onChange={changeVersions}
-              />
-            </label>
-            <label className="vg">
-              Caja
-              <input
-                type="text"
-                index={subindex}
-                name="box"
-                value={versions[subindex].box}
-                onChange={changeVersions}
-              />
-            </label>
+            <TextField
+              label="Armario"
+              value={versions[subindex].cabinet}
+              onChange={(event) => {
+                event.target.subindex = subindex;
+                event.target.name = 'cabinet';
+                changeVersions(event);
+              }}
+            />
+            <TextField
+              label="Caja"
+              value={versions[subindex].box}
+              onChange={(event) => {
+                event.target.subindex = subindex;
+                event.target.name = 'box';
+                changeVersions(event);
+              }}
+            />
           </div>
         </div>
       </div>

@@ -1,3 +1,6 @@
+$bp1-width: 900px;
+$bp2-width: 500px;
+
 $pri-font-color: #fff;
 $sec-font-color: #ccc;
 $pri-bg-color: #181818;
@@ -21,9 +24,18 @@ $small-svg-size: 1.3rem;
 $green-color: #0a9434;
 $blue-color: #0a6f94;
 
-$download-color: rgba($color: #000, $alpha: 0.5);
-$download-hover-color: rgba($color: $green-color, $alpha: 0.7);
-$link-hover-color: rgba($color: $blue-color, $alpha: 0.4);
+$download-color: rgba(
+  $color: #000,
+  $alpha: 0.5,
+);
+$download-hover-color: rgba(
+  $color: $green-color,
+  $alpha: 0.7,
+);
+$link-hover-color: rgba(
+  $color: $blue-color,
+  $alpha: 0.4,
+);
 
 $input-border-radius: 0.3rem;
 $input-font-color: $pri-font-color;
@@ -34,3 +46,7 @@ $form-group-v-gap: 0.2rem;
 $form-author-gb-color: #121212;
 $form-gap: 1.6rem;
 
+$header-height: 3.5rem;
+$navbar-height: 3.5rem;
+
+$svg-icon-size: 1.5rem;

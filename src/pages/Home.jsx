@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import Table from '../components/Home/Table';
 import Card from '../components/Home/Card';
 import axios from 'axios';
@@ -19,7 +19,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div id="home">
+    <div id="home" className='section-container'>
       <Table pieces={pieces} setSelectedPiece={setSelectedPiece} />
       <Card selectedPiece={selectedPiece} setSelectedPiece={setSelectedPiece} />
     </div>

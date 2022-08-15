@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectInput from './SelectInput';
+import { TextField, Autocomplete } from '@mui/material';
 
 const Author = ({
   authors,
@@ -12,55 +12,46 @@ const Author = ({
 }) => {
   return (
     <div className="author">
-      <label className="vg">
-        Nombre
-        <input
-          id="data"
-          size="1"
-          type="text"
-          index={index}
-          subindex={subindex}
-          name="name"
-          value={authors[index].name}
-          onChange={changeAuthors}
-        />
-      </label>
-      <label className="vg">
-        Apellido
-        <input
-          size="1"
-          type="text"
-          index={index}
-          subindex={subindex}
-          name="surname"
-          value={authors[index].surname}
-          onChange={changeAuthors}
-        />
-      </label>
-      <label className="vg">
-        Nacionalidad
-        <SelectInput
-          isMulti={false}
-          isCreatable={false}
-          index={index}
-          subindex={subindex}
-          name="country"
-          options={countryOptions}
-          setSelected={changeAuthors}
-        />
-      </label>
-      <label className="vg">
-        Rol
-        <input
-          size="1"
-          type="text"
-          index={index}
-          subindex={subindex}
-          name="role"
-          value={authors[index].role}
-          onChange={changeAuthors}
-        />
-      </label>
+      <TextField
+        label="Nombre"
+        value={authors[index].name}
+        onChange={(event, newValue) => {
+          event.target.index = index;
+          event.target.subindex = subindex;
+          event.target.name = 'name';
+          changeAuthors(event, newValue);
+        }}
+      />
+      <TextField
+        label="Apellido"
+        value={authors[index].surname}
+        onChange={(event, newValue) => {
+          event.target.index = index;
+          event.target.subindex = subindex;
+          event.target.name = 'surname';
+          changeAuthors(event, newValue);
+        }}
+      />
+      <Autocomplete
+        options={countryOptions}
+        renderInput={(params) => <TextField {...params} label="Nacionalidad" />}
+        onChange={(event, newValue) => {
+          event.target.index = index;
+          event.target.subindex = subindex;
+          event.target.name = 'country';
+          changeAuthors(event, newValue);
+        }}
+      />
+      <TextField
+        label="Rol"
+        value={authors[index].role}
+        onChange={(event, newValue) => {
+          event.target.index = index;
+          event.target.subindex = subindex;
+          event.target.name = 'role';
+          changeAuthors(event, newValue);
+        }}
+      />
     </div>
   );
 };

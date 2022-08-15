@@ -1,3 +1,4 @@
+import { HouseDoor, HouseDoorFill, PlusSquare, PlusSquareFill, Person, PersonFill } from 'react-bootstrap-icons';
 import React from 'react';
 import Page from './Page';
 
@@ -10,8 +11,9 @@ const Sidebar = () => {
       </div>
       <nav>
         <ul>
-      <Page to="/obras">LISTA DE OBRAS</Page>
-      <Page to="/nueva-entrada">NUEVA ENTRADA</Page>
+        <Page to="/obras" icon={<HouseDoor/>} activeIcon={<HouseDoorFill/>}>Lista de obras</Page>
+    <Page to="/nueva-entrada" icon={<PlusSquare/>} activeIcon={<PlusSquareFill/>}>Nueva entrada</Page>
+    <Page to="/iniciar-sesion" icon={<Person/>} activeIcon={<PersonFill/>}>Iniciar sesión</Page>
         </ul>
       </nav>
     </div>

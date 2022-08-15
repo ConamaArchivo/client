@@ -1,25 +1,35 @@
 import React from 'react';
-import { XLg, Link45deg, Download, List } from 'react-bootstrap-icons';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import LaunchIcon from '@mui/icons-material/Launch';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { v4 as uuid } from 'uuid';
+import { IconButton } from '@mui/material';
 import { Buffer } from 'buffer';
 import { flag } from 'country-emoji';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
 const Card = ({ selectedPiece, setSelectedPiece }) => {
+  const handleCloseCard = (e) => {
+    setSelectedPiece({});
+    if (document.querySelector('.selected')) {
+      document.querySelector('.selected').classList.remove('selected');
+    }
+  };
+
   if (Object.keys(selectedPiece).length !== 0) {
-    console.log(selectedPiece);
     return (
       <div className="card-wrapper">
         <div className="card">
           <div className="card-btns">
-            <button className="more-actions">
-              <List />
-            </button>
+            <IconButton className="more-actions">
+              <MenuIcon />
+            </IconButton>
 
-            <button className="close-card" onClick={() => setSelectedPiece({})}>
-              <XLg />
-            </button>
+            <IconButton className="close-card" onClick={handleCloseCard}>
+              <CloseIcon />
+            </IconButton>
             <div className="actions">
               <a href="/edit">EDITAR</a>
               <a href="/delete">BORRAR</a>
@@ -144,13 +154,13 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
                         target="_blank"
                         href={version.files.pdf.url.webRawLink}
                       >
-                        <Link45deg />
+                        <LaunchIcon />
                       </a>
                       <a
                         className="download"
                         href={version.files.pdf.url.webContentLink}
                       >
-                        <Download />
+                        <FileDownloadIcon />
                         <div className="loader"></div>
                       </a>
                     </div>

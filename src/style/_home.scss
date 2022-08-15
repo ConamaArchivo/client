@@ -1,14 +1,24 @@
 #home {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  height: 100vh;
+  height: 100%;
   .table-wrapper {
-  overflow-y: auto;
+    position: relative;
     padding: 1rem;
+    overflow-y: auto;
+    min-height: min-content;
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
     table {
+      margin-top: $header-height;
       border-collapse: collapse;
       border: 2px solid $sec-bg-color;
-      height: min-content;
+      min-height: min-content;
       width: 100%;
       th {
         background: $sec-bg-color;
@@ -19,6 +29,17 @@
         border-width: 1px 0 2px 0;
         text-align: left;
         padding: 0.5rem;
+      }
+      tr {
+        &:hover {
+          background: $sec-bg-color;
+        }
+      }
+      .selected {
+        background: rgba($color: #42a5f5, $alpha: 0.1);
+        &:hover {
+          background: rgba($color: #42a5f5, $alpha: 0.2);
+        }
       }
     }
   }
@@ -33,6 +54,7 @@
   background: $sec-bg-color;
 
   .card {
+    font-family: 'Inter', sans-serif;
     background: $sec-bg-color;
     display: flex;
     flex-direction: column;
@@ -45,22 +67,6 @@
       position: relative;
       margin-bottom: 1.5rem;
       width: 100%;
-      button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: $sec-btn-color;
-        color: $pri-font-color;
-        border: none;
-        width: $action-btn-size;
-        height: $action-btn-size;
-        border-radius: $btn-border-radius;
-        cursor: pointer;
-        svg {
-          width: $small-svg-size;
-          height: $small-svg-size;
-        }
-      }
       .actions {
         position: absolute;
         display: flex;
