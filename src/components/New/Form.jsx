@@ -12,7 +12,8 @@ import {
 import Author from './Author';
 import Version from './Version';
 import Notification from './Notification';
-import axios from 'axios';
+import {axiosInstance} from '../../axiosConfig'
+
 
 const Form = ({
   countryOptions,
@@ -35,7 +36,7 @@ const Form = ({
       formData.append(`file-${index}`, file);
     });
     try {
-      const res = await axios.post('/nueva-entrada', formData, {
+      const res = await axiosInstance.post('/nueva-entrada', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
