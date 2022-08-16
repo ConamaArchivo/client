@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Form from '../components/New/Form';
 import TopBar from '../components/New/TopBar';
-import axios from 'axios';
-const countries = require("i18n-iso-countries");
-countries.registerLocale(require("i18n-iso-countries/langs/es.json"));
+import { axiosInstance } from '../axiosConfig';
+const countries = require('i18n-iso-countries');
+countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 const { flag } = require('country-emoji');
 
 const New = () => {
@@ -17,7 +17,7 @@ const New = () => {
   useEffect(() => {
     const getOptions = async () => {
       try {
-        const res = await axios.get('/nueva-entrada', {});
+        const res = await axiosInstance.get('/nueva-entrada', {});
         console.log(res.data);
         setGenreOptions(res.data.genres);
         setAccompanimentOptions(res.data.accompaniments);
@@ -47,11 +47,11 @@ const New = () => {
     { value: 'femenino', label: 'Femenino' },
   ];
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   return (
-    <div id="new" className='section-container'>
-      <TopBar loading={loading}/>
+    <div id="new" className="section-container">
+      <TopBar loading={loading} />
       <Form
         countryOptions={countryOptions}
         genreOptions={genreOptions}
