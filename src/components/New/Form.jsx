@@ -12,8 +12,7 @@ import {
 import Author from './Author';
 import Version from './Version';
 import Notification from './Notification';
-import {axiosInstance} from '../../axiosConfig'
-
+import useAxiosPrivate  from '../../hooks/useAxiosPrivate';
 
 const Form = ({
   countryOptions,
@@ -26,6 +25,7 @@ const Form = ({
   arrSurnameOptions,
   setLoading,
 }) => {
+  const axiosPrivate = useAxiosPrivate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -36,7 +36,7 @@ const Form = ({
       formData.append(`file-${index}`, file);
     });
     try {
-      const res = await axiosInstance.post('/nueva-entrada', formData, {
+      const res = await axiosPrivate.post('/nueva-entrada', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

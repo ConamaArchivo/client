@@ -7,7 +7,7 @@ const Page = ({ to, icon, activeIcon, children, ...props }) => {
   return (
     <li className={isActive ? 'active' : ''}>
       <Link to={to} {...props}>
-      {icon? (activeIcon? (isActive? activeIcon: icon): icon) : null}
+        {icon ? (activeIcon ? (isActive ? activeIcon : icon) : icon) : null}
         {children}
       </Link>
     </li>

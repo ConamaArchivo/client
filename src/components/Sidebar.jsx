@@ -1,8 +1,18 @@
-import { HouseDoor, HouseDoorFill, PlusSquare, PlusSquareFill, Person, PersonFill } from 'react-bootstrap-icons';
+import {
+  HouseDoor,
+  HouseDoorFill,
+  PlusSquare,
+  PlusSquareFill,
+  Person,
+  PersonFill,
+} from 'react-bootstrap-icons';
 import React from 'react';
 import Page from './Page';
+import useAuth from '../hooks/useAuth';
 
 const Sidebar = () => {
+  const { auth } = useAuth();
+
   return (
     <div className="sidebar">
       <div className="title">
@@ -11,9 +21,25 @@ const Sidebar = () => {
       </div>
       <nav>
         <ul>
-        <Page to="/obras" icon={<HouseDoor/>} activeIcon={<HouseDoorFill/>}>Lista de obras</Page>
-    <Page to="/nueva-entrada" icon={<PlusSquare/>} activeIcon={<PlusSquareFill/>}>Nueva entrada</Page>
-    <Page to="/iniciar-sesion" icon={<Person/>} activeIcon={<PersonFill/>}>Iniciar sesión</Page>
+          <Page to="/obras" icon={<HouseDoor />} activeIcon={<HouseDoorFill />}>
+            Lista de obras
+          </Page>
+          {auth?.email && (
+            <Page
+              to="/nueva-entrada"
+              icon={<PlusSquare />}
+              activeIcon={<PlusSquareFill />}
+            >
+              Nueva entrada
+            </Page>
+          )}
+          <Page
+            to="/iniciar-sesion"
+            icon={<Person />}
+            activeIcon={<PersonFill />}
+          >
+            Iniciar sesión
+          </Page>
         </ul>
       </nav>
     </div>
@@ -21,4 +47,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-

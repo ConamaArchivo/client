@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../components/Home/Table';
 import Card from '../components/Home/Card';
-import { axiosInstance } from '../axiosConfig';
+import { axiosPublic } from '../axios';
 
 const Home = () => {
   const [selectedPiece, setSelectedPiece] = useState({});
@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const getPieces = async () => {
       try {
-        const res = await axiosInstance.get('/obras', {});
+        const res = await axiosPublic.get('/obras', {});
         console.log(res.data);
         setPieces(res.data);
       } catch (error) {}

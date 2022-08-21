@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Form from '../components/New/Form';
 import TopBar from '../components/New/TopBar';
-import { axiosInstance } from '../axiosConfig';
+import { axiosPublic } from '../axios';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 const { flag } = require('country-emoji');
@@ -17,7 +17,7 @@ const New = () => {
   useEffect(() => {
     const getOptions = async () => {
       try {
-        const res = await axiosInstance.get('/nueva-entrada', {});
+        const res = await axiosPublic.get('/nueva-entrada', {});
         console.log(res.data);
         setGenreOptions(res.data.genres);
         setAccompanimentOptions(res.data.accompaniments);
