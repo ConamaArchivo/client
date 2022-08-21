@@ -17,19 +17,19 @@ const Navbar = () => {
     <nav className="navbar">
       <ul>
         <Page
-          to="/obras"
+          to="/"
           icon={<HouseDoor />}
           activeIcon={<HouseDoorFill />}
         ></Page>
         {auth?.email && (
           <Page
-            to="/nueva-entrada"
+            to="/new"
             icon={<PlusSquare />}
             activeIcon={<PlusSquareFill />}
           ></Page>
         )}
         <Page
-          to="/iniciar-sesion"
+          to={auth?.email ? '/user' : '/login'}
           icon={<Person />}
           activeIcon={<PersonFill />}
         ></Page>

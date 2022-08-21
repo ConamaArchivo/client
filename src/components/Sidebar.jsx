@@ -21,12 +21,12 @@ const Sidebar = () => {
       </div>
       <nav>
         <ul>
-          <Page to="/obras" icon={<HouseDoor />} activeIcon={<HouseDoorFill />}>
+          <Page to="/" icon={<HouseDoor />} activeIcon={<HouseDoorFill />}>
             Lista de obras
           </Page>
           {auth?.email && (
             <Page
-              to="/nueva-entrada"
+              to="/new"
               icon={<PlusSquare />}
               activeIcon={<PlusSquareFill />}
             >
@@ -34,11 +34,11 @@ const Sidebar = () => {
             </Page>
           )}
           <Page
-            to="/iniciar-sesion"
+            to={auth?.email ? '/user' : '/login'}
             icon={<Person />}
             activeIcon={<PersonFill />}
           >
-            Iniciar sesión
+            {auth?.email ? 'Usuario' : 'Iniciar sesión'}
           </Page>
         </ul>
       </nav>
