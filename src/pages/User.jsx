@@ -5,7 +5,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate } from 'react-router-dom';
 
 const User = () => {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
   const navigate = useNavigate();
@@ -25,9 +25,12 @@ const User = () => {
   };
 
   return (
-    <LoadingButton onClick={handleLogout} loading={loading} variant="contained">
-      Cerrar sesión
-    </LoadingButton>
+    <div id="user">
+      <h3>{auth.email}</h3>
+      <LoadingButton onClick={handleLogout} loading={loading} variant="contained">
+        Cerrar sesión
+      </LoadingButton>
+    </div>
   );
 };
 

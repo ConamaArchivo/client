@@ -1,0 +1,28 @@
+#login {
+  display: flex;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+ h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0.6rem;
+    font-family: Inter;
+  }
+  form {
+    background:$sec-bg-color;
+    display: flex;
+    flex-direction: column;
+    padding: $form-gap;
+    border-radius: 0.6rem;
+    div:first-child {
+      margin-bottom: $form-gap;
+    }
+    label {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

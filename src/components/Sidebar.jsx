@@ -38,7 +38,7 @@ const Sidebar = () => {
             icon={<Person />}
             activeIcon={<PersonFill />}
           >
-            {auth?.email ? 'Usuario' : 'Iniciar sesión'}
+            {auth?.email ? auth.email : 'Iniciar sesión'}
           </Page>
         </ul>
       </nav>

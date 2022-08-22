@@ -1,0 +1,15 @@
+#user {
+  padding-top: $header-height;
+  display: flex;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+ h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0.6rem;
+    font-family: Inter;
+  }
+}

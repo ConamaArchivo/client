@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import RequireLogin from './components/RequireLogin';
+import PersistLogin from './components/PersistLogin';
 import Home from './pages/Home';
 import New from './pages/New';
 import User from './pages/User';
@@ -16,9 +17,11 @@ const RouteSwitch = () => {
       {!mobileView && <Sidebar />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route element={<RequireLogin />}>
-          <Route path="/new" element={<New />} />
-          <Route path="/user" element={<User />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireLogin />}>
+            <Route path="/new" element={<New />} />
+            <Route path="/user" element={<User />} />
+          </Route>
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
