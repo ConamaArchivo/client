@@ -12,7 +12,7 @@ import {
 import Author from './Author';
 import Version from './Version';
 import Notification from './Notification';
-import useAxiosPrivate  from '../../hooks/useAxiosPrivate';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const Form = ({
   countryOptions,
@@ -39,7 +39,9 @@ const Form = ({
       const res = await axiosPrivate.post('/nueva-entrada', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': process.env.REACT_APP_API_URL,
         },
+        crossDomain: true,
       });
       console.log('res: ', res);
       setLoading(false);
