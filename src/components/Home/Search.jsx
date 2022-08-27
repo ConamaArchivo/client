@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import useStyle from '../../hooks/useStyle';
 
-const SearchBar = () => {
+const SearchBar = ({ searchValue, setSearchValue }) => {
   const { mobileView } = useStyle();
 
   return (
@@ -14,7 +14,12 @@ const SearchBar = () => {
             <MenuIcon />
           </IconButton>
         )}
-        <input type="text" placeholder="Buscar..." />
+        <input
+          type="text"
+          placeholder="Buscar..."
+          value={searchValue || ''}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
         <IconButton>
           <SearchIcon />
         </IconButton>

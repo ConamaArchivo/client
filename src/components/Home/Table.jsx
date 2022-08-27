@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
+import { useTable, useGlobalFilter } from 'react-table';
 import CircularProgress from '@mui/material/CircularProgress';
 import SearchBar from './Search';
 
@@ -20,8 +20,17 @@ function Table({ pieces, setSelectedPiece }) {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    setGlobalFilter,
+  } = useTable({ columns, data }, useGlobalFilter);
+
+  const { globalFilter } = state;
 
   const handleTableClick = (e, row) => {
     if (e.currentTarget.classList.contains('selected')) {
@@ -38,7 +47,7 @@ function Table({ pieces, setSelectedPiece }) {
 
   return (
     <div className="table-wrapper">
-      <SearchBar />
+      <SearchBar searchValue={globalFilter} setSearchValue={setGlobalFilter} />
       {pieces.length !== 0 ? (
         <table {...getTableProps()}>
           <thead>
