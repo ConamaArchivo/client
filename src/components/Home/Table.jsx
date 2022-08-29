@@ -1,24 +1,94 @@
-import React, { useMemo } from 'react';
-import { useTable, useGlobalFilter } from 'react-table';
+import React, { useMemo, useState } from 'react';
+import { useTable, useGlobalFilter, useSortBy } from 'react-table';
 import CircularProgress from '@mui/material/CircularProgress';
 import SearchBar from './Search';
+import { flag } from 'country-emoji';
+import { Checkbox, FormControlLabel } from '@mui/material';
+const countries = require('i18n-iso-countries');
+countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
 function Table({ pieces, setSelectedPiece }) {
-  const data = useMemo(() => pieces, [pieces]);
+  const data = useMemo(
+    () =>
+      pieces.map((element) => {
+        let authorsStr = '';
+        let countryFlags = '';
+        let countrySearch = '';
+        if (element.authors.length !== 0) {
+          element.authors.map((person) =>
+            !authorsStr.length
+              ? (authorsStr = `${person.surname}, ${person.name}`)
+              : (authorsStr = `${authorsStr} - ${person.surname}, ${person.name}`)
+          );
+          element.authors.map(
+            (person) =>
+              (countryFlags =
+                person.country && `${countryFlags}${flag(person.country)}`)
+          );
+          element.authors.map(
+            (person) =>
+              (countrySearch =
+                person.country &&
+                `${countrySearch}${countries.getName(person.country, 'es', {
+                  select: 'alias',
+                })} `)
+          );
+        } else {
+          authorsStr = 'Anónimo';
+        }
+        element.tableAuthors = authorsStr;
+        element.tableCountry = countryFlags;
+        element.tableCountrySearch = countrySearch;
+
+        let genreStr = '';
+        element.genre.map((gen, i) =>
+          element.genre.length - 1 > i
+            ? (genreStr = `${genreStr}${gen}, `)
+            : (genreStr = `${genreStr}${gen}`)
+        );
+        element.tableGenre = genreStr;
+
+        return element;
+      }),
+    [pieces]
+  );
 
   const columns = useMemo(
     () => [
       {
-        Header: 'Título',
+        id: 'Obra',
+        Header: 'Obra',
         accessor: 'title',
       },
       {
+        id: 'Autor',
         Header: 'Autor',
-        accessor: 'authors[0].name',
+        accessor: 'tableAuthors',
+      },
+      {
+        id: 'País',
+        Header: 'País',
+        accessor: 'tableCountry',
+      },
+      {
+        id: 'Género',
+        Header: 'Género',
+        accessor: 'tableGenre',
+      },
+      {
+        id: 'Repertorio',
+        Header: 'Repertorio',
+        accessor: 'repertoire',
+      },
+      {
+        id: 'countrySearchHidden',
+        Header: 'alwaysHidden',
+        accessor: 'tableCountrySearch',
       },
     ],
     []
   );
+  const [optionsVisibility, setOptionsVisibility] = useState(true);
 
   const {
     getTableProps,
@@ -28,7 +98,18 @@ function Table({ pieces, setSelectedPiece }) {
     prepareRow,
     state,
     setGlobalFilter,
-  } = useTable({ columns, data }, useGlobalFilter);
+    allColumns,
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: {
+        hiddenColumns: ['countrySearchHidden'],
+      },
+    },
+    useGlobalFilter,
+    useSortBy
+  );
 
   const { globalFilter } = state;
 
@@ -47,15 +128,41 @@ function Table({ pieces, setSelectedPiece }) {
 
   return (
     <div className="table-wrapper">
-      <SearchBar searchValue={globalFilter} setSearchValue={setGlobalFilter} />
+      <SearchBar
+        searchValue={globalFilter}
+        setSearchValue={setGlobalFilter}
+        options={optionsVisibility}
+        setOptions={setOptionsVisibility}
+      />
+      {optionsVisibility && (
+        <div className="options">
+          {allColumns.map(
+            (column) =>
+              column.Header !== 'alwaysHidden' && (
+                <div key={column.id}>
+                  <FormControlLabel
+                    control={<Checkbox {...column.getToggleHiddenProps()} />}
+                    label={column.Header}
+                  />
+                </div>
+              )
+          )}
+        </div>
+      )}
       {pieces.length !== 0 ? (
         <table {...getTableProps()}>
+          {console.log('data: ', data)}
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                     {column.render('Header')}
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' ⏷'
+                        : ' ⏶'
+                      : null}
                   </th>
                 ))}
               </tr>

@@ -1,19 +1,15 @@
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import useStyle from '../../hooks/useStyle';
 
-const SearchBar = ({ searchValue, setSearchValue }) => {
-  const { mobileView } = useStyle();
+const SearchBar = ({ searchValue, setSearchValue, options, setOptions}) => {
 
   return (
     <div className="search">
       <div className="content">
-        {mobileView && (
           <IconButton>
             <MenuIcon />
           </IconButton>
-        )}
         <input
           type="text"
           placeholder="Buscar..."

@@ -7,6 +7,11 @@
     padding: 1rem;
     overflow-y: auto;
     min-height: min-content;
+    .options {
+      padding-top: $header-height;
+      display: flex;
+      margin-bottom: -$header-height/2;
+    }
     .loading-container {
       display: flex;
       justify-content: center;

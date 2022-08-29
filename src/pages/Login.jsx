@@ -17,9 +17,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("persist", persist);
-}, [persist])
-
+    localStorage.setItem('persist', persist);
+  }, [persist]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
