@@ -4,11 +4,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import LoadingButton from '@mui/lab/LoadingButton';
 import useStyle from '../../hooks/useStyle';
 
-const TopBar = ({ loading }) => {
+const SaveTopBar = ({ loading }) => {
   const { mobileView } = useStyle();
 
   return (
-    <div className="top-bar">
+    <div className="top-bar save">
       {mobileView && (
         <IconButton>
           <ArrowBackIcon />
@@ -28,4 +28,4 @@ const TopBar = ({ loading }) => {
   );
 };
 
-export default TopBar;
+export default SaveTopBar;

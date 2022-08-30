@@ -1,6 +1,6 @@
 @media (max-width: $bp1-width) {
   #new {
-    padding-top: $header-height;
+    // padding-top: $header-height;
 
     form {
       padding-inline: 3rem;
@@ -10,16 +10,12 @@
 
 @media (max-width: $bp2-width) {
   #root {
-    padding-top: $header-height;
-
     .section-container {
       width: 100vw;
-      padding-top: 0;
     }
     .search,
     .top-bar {
       padding-inline: 0.5rem;
-      position: fixed;
     }
     .top-bar {
       justify-content: space-between;
@@ -30,30 +26,13 @@
     #home {
       grid-template-columns: 1fr;
       grid-column-end: span 2;
-
-      .table-wrapper {
-        padding-top: 0;
-        padding-inline: 0;
-        table {
-          margin-top: 1rem;
-        }
-      }
       .card-wrapper {
-        z-index: 20;
+        z-index: 100;
         position: fixed;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        animation: slide forwards 0.4s ease-in-out;
-      }
-      @keyframes slide {
-        0% {
-          transform: translateY(100%);
-        }
-        100% {
-          transform: translateY(0);
-        }
       }
     }
     #new {

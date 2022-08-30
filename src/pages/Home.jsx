@@ -11,7 +11,6 @@ const Home = () => {
     const getPieces = async () => {
       try {
         const res = await axiosPublic.get('/obras', {});
-        console.log(res.data);
         setPieces(res.data);
       } catch (error) {}
     };

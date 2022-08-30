@@ -14,11 +14,10 @@ const User = () => {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      const response = await axiosPrivate.post('/logout');
-      console.log(JSON.stringify(response?.data));
+     await axiosPrivate.post('/logout');
       setAuth({});
     } catch (err) {
-      console.log(err);
+      console.log('err: ', err);
     }
     setLoading(false);
     navigate('/');

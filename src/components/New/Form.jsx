@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
+import SaveTopBar from './SaveTopBar';
 import {
   Button,
   TextField,
@@ -24,6 +25,7 @@ const Form = ({
   arrNameOptions,
   arrSurnameOptions,
   setLoading,
+  loading,
 }) => {
   const axiosPrivate = useAxiosPrivate();
   const handleSubmit = async (e) => {
@@ -36,14 +38,13 @@ const Form = ({
       formData.append(`file-${index}`, file);
     });
     try {
-      const res = await axiosPrivate.post('/nueva-entrada', formData, {
+      await axiosPrivate.post('/nueva-entrada', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Access-Control-Allow-Origin': process.env.REACT_APP_API_URL,
         },
         crossDomain: true,
       });
-      console.log('res: ', res);
       setLoading(false);
       setOpenSuccessToast(true);
     } catch (error) {
@@ -236,87 +237,89 @@ const Form = ({
         message="mal"
         severity="error"
       />
-      <form id="new-piece" onSubmit={handleSubmit}>
-        <div className="general">
-          <TextField
-            fullWidth
-            required
-            helperText="Obligatorio"
-            label="Título"
-            value={generalInfo.title}
-            onChange={(event) => {
-              event.target.name = 'title';
-              changeGeneralInfo(event);
-            }}
-          />
-          <h3 className="bt authors-title">
-            {authors.length > 1 ? 'Autores' : 'Autor'}
-          </h3>
-          <div className="authors">
-            {authors.map((e, i) => (
-              <Author
-                countryOptions={countryOptions}
-                target="author"
-                index={i}
-                key={`author${i}`}
-                authors={authors}
-                subindex=""
-                changeAuthors={changeAuthors}
-                nameOptions={nameOptions}
-                surnameOptions={surnameOptions}
-              />
-            ))}
-          </div>
-          <div className="btns">
-            <Button
-              size="small"
-              variant="contained"
-              startIcon={<AddIcon />}
-              className="add"
-              onClick={handleAddAuthorBtn}
-            >
-              Agregar autor
-            </Button>
-            {authors.length > 1 ? (
+      <div className="form-wrapper">
+        <SaveTopBar loading={loading} />
+        <form id="new-piece" onSubmit={handleSubmit}>
+          <div className="general">
+            <TextField
+              fullWidth
+              required
+              helperText="Obligatorio"
+              label="Título"
+              value={generalInfo.title}
+              onChange={(event) => {
+                event.target.name = 'title';
+                changeGeneralInfo(event);
+              }}
+            />
+            <h3 className="bt authors-title">
+              {authors.length > 1 ? 'Autores' : 'Autor'}
+            </h3>
+            <div className="authors">
+              {authors.map((e, i) => (
+                <Author
+                  countryOptions={countryOptions}
+                  target="author"
+                  index={i}
+                  key={`author${i}`}
+                  authors={authors}
+                  subindex=""
+                  changeAuthors={changeAuthors}
+                  nameOptions={nameOptions}
+                  surnameOptions={surnameOptions}
+                />
+              ))}
+            </div>
+            <div className="btns">
               <Button
                 size="small"
-                variant="outlined"
-                startIcon={<ClearIcon />}
-                className="remove"
-                onClick={handleRemoveAuthorBtn}
+                variant="contained"
+                startIcon={<AddIcon />}
+                className="add"
+                onClick={handleAddAuthorBtn}
               >
-                Quitar autor
+                Agregar autor
               </Button>
-            ) : null}
-          </div>
-          <div className="group-alt">
-            <div className="hg">
-              <div className="repertoire vg">
-                <h3 className="bt">Repertorio</h3>
-                <RadioGroup
-                  name="repertoire"
-                  value={generalInfo.repertoire}
-                  onChange={changeRepertoire}
+              {authors.length > 1 ? (
+                <Button
+                  size="small"
+                  variant="outlined"
+                  startIcon={<ClearIcon />}
+                  className="remove"
+                  onClick={handleRemoveAuthorBtn}
                 >
-                  <FormControlLabel
-                    value="académico"
-                    control={<Radio />}
-                    label="Académico"
-                  />
-                  <FormControlLabel
-                    value="popular"
-                    control={<Radio />}
-                    label="Popular"
-                  />
-                </RadioGroup>
-              </div>
-              <div className="genre vg">
-                <h3>&nbsp;</h3>
-                <div className="genre-wrapper">
+                  Quitar autor
+                </Button>
+              ) : null}
+            </div>
+            <div className="group-alt">
+              <div className="hg">
+                <div className="repertoire vg">
+                  <h3 className="bt">Repertorio</h3>
+                  <RadioGroup
+                    name="repertoire"
+                    value={generalInfo.repertoire}
+                    onChange={changeRepertoire}
+                  >
+                    <FormControlLabel
+                      value="académico"
+                      control={<Radio />}
+                      label="Académico"
+                    />
+                    <FormControlLabel
+                      value="popular"
+                      control={<Radio />}
+                      label="Popular"
+                    />
+                  </RadioGroup>
+                </div>
+                <div className="genre vg">
+                  <h3>&nbsp;</h3>
                   <Autocomplete
                     multiple
                     freeSolo
                     options={genreOptions}
+                    fullWidth={true}
                     filterSelectedOptions
                     onChange={(event, newValue) => {
                       event.target.name = 'genre';
@@ -328,62 +331,61 @@ const Form = ({
                   />
                 </div>
               </div>
+              <label className="vg bl comment-wrapper">
+                <h3>&nbsp;</h3>
+                <TextField
+                  label="Observaciones"
+                  value={generalInfo.comment}
+                  onChange={(event) => {
+                    event.target.name = 'comment';
+                    changeGeneralInfo(event);
+                  }}
+                  multiline
+                  rows={3}
+                />
+              </label>
             </div>
-            <label className="vg bl comment-wrapper">
-              <h3>&nbsp;</h3>
-
-              <TextField
-                label="Observaciones"
-                value={generalInfo.comment}
-                onChange={(event) => {
-                  event.target.name = 'comment';
-                  changeGeneralInfo(event);
-                }}
-                multiline
-                rows={3}
-              />
-            </label>
           </div>
-        </div>
-        <div className="versions">
-          {versions.map((e, i) => (
-            <Version
-              countryOptions={countryOptions}
-              accompanimentOptions={accompanimentOptions}
-              voicesOptions={voicesOptions}
-              subindex={i}
-              key={`version${i}`}
-              versions={versions}
-              changeVersions={changeVersions}
-              setVersions={setVersions}
-              setFiles={setFiles}
-              files={files}
-            />
-          ))}
-          <div className="btns">
-            <Button
-              size="small"
-              variant="contained"
-              startIcon={<AddIcon />}
-              className="add"
-              onClick={handleAddVersionBtn}
-            >
-              Agregar versión
-            </Button>
-            {versions.length > 1 ? (
+          <div className="versions">
+            {versions.map((e, i) => (
+              <Version
+                countryOptions={countryOptions}
+                accompanimentOptions={accompanimentOptions}
+                voicesOptions={voicesOptions}
+                subindex={i}
+                key={`version${i}`}
+                versions={versions}
+                changeVersions={changeVersions}
+                setVersions={setVersions}
+                setFiles={setFiles}
+                files={files}
+              />
+            ))}
+            <div className="btns">
               <Button
                 size="small"
-                variant="outlined"
-                startIcon={<ClearIcon />}
-                className="remove"
-                onClick={handleRemoveVersionBtn}
+                variant="contained"
+                startIcon={<AddIcon />}
+                className="add"
+                onClick={handleAddVersionBtn}
               >
-                Quitar versión
+                Agregar versión
               </Button>
-            ) : null}
+              {versions.length > 1 ? (
+                <Button
+                  size="small"
+                  variant="outlined"
+                  startIcon={<ClearIcon />}
+                  className="remove"
+                  onClick={handleRemoveVersionBtn}
+                >
+                  Quitar versión
+                </Button>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </Fragment>
   );
 };
