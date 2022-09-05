@@ -4,6 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import SearchTopBar from './SearchTopBar';
 import { flag } from 'country-emoji';
 import Options from './Options';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
@@ -76,11 +77,11 @@ function Table({ pieces, setSelectedPiece }) {
             ? (boxStr = `${boxStr}${version.files.location.box}`)
             : (boxStr = `${boxStr} - ${version.files.location.box}`);
 
-            !originalsStr.length
+          !originalsStr.length
             ? (originalsStr = `${originalsStr}${version.files.quantity.originals}`)
             : (originalsStr = `${originalsStr} - ${version.files.quantity.originals}`);
 
-            !copiesStr.length
+          !copiesStr.length
             ? (copiesStr = `${copiesStr}${version.files.quantity.copies}`)
             : (copiesStr = `${copiesStr} - ${version.files.quantity.copies}`);
 
@@ -228,13 +229,20 @@ function Table({ pieces, setSelectedPiece }) {
 
   return (
     <div className="table-wrapper">
-      <SearchTopBar
-        searchValue={globalFilter}
-        setSearchValue={setGlobalFilter}
-        options={optionsVisibility}
-        setOptions={setOptionsVisibility}
-      />
-      <Options allColumns={allColumns} optionsVisibility={optionsVisibility} />
+      <ClickAwayListener onClickAway={() => setOptionsVisibility(false)}>
+        <div className="top-bar search">
+          <SearchTopBar
+            searchValue={globalFilter}
+            setSearchValue={setGlobalFilter}
+            options={optionsVisibility}
+            setOptions={setOptionsVisibility}
+          />
+          <Options
+            allColumns={allColumns}
+            optionsVisibility={optionsVisibility}
+          />
+        </div>
+      </ClickAwayListener>
       {pieces.length !== 0 ? (
         <div className="table">
           <table {...getTableProps()}>
