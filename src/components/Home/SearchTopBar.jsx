@@ -21,7 +21,7 @@ const SearchTopBar = ({ searchValue, setSearchValue, options, setOptions }) => {
           value={searchValue || ''}
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        <ToggleButton>
+        <ToggleButton value="search">
           <SearchIcon />
         </ToggleButton>
       </div>

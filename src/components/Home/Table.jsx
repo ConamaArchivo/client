@@ -238,7 +238,6 @@ function Table({ pieces, setSelectedPiece }) {
       {pieces.length !== 0 ? (
         <div className="table">
           <table {...getTableProps()}>
-            {console.log('data: ', data)}
             <thead>
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>

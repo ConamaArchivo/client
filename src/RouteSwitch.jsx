@@ -16,8 +16,8 @@ const RouteSwitch = () => {
     <BrowserRouter>
       {!mobileView && <Sidebar />}
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route element={<PersistLogin />}>
+          <Route path="/" element={<Home />} />
           <Route element={<RequireLogin />}>
             <Route path="/new" element={<New />} />
             <Route path="/user" element={<User />} />
