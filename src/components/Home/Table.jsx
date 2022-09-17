@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, useGlobalFilter, useSortBy } from 'react-table';
 import CircularProgress from '@mui/material/CircularProgress';
 import SearchTopBar from './SearchTopBar';
@@ -189,6 +189,21 @@ function Table({ pieces, setSelectedPiece }) {
     ],
     []
   );
+
+  const visibleColumns = JSON.parse(localStorage.getItem('columns')) || [
+    'Arreglador',
+    'País',
+    'Género',
+    'Repertorio',
+    'Acompañamiento',
+    'Archivos originales',
+    'Copias',
+    'N° de voces',
+    'Voces',
+    'Armario',
+    'Caja',
+  ];
+
   const [optionsVisibility, setOptionsVisibility] = useState(false);
 
   const {
@@ -205,12 +220,24 @@ function Table({ pieces, setSelectedPiece }) {
       columns,
       data,
       initialState: {
-        hiddenColumns: ['countrySearchHidden'],
+        hiddenColumns: ['countrySearchHidden', ...visibleColumns],
       },
     },
     useGlobalFilter,
     useSortBy
   );
+
+  useEffect(() => {
+    localStorage.setItem(
+      'columns',
+      JSON.stringify(
+        allColumns
+          .filter((c) => !c.isVisible && c.id !== 'countrySearchHidden')
+          .map((c) => c.id)
+      )
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [[...allColumns]]);
 
   const { globalFilter } = state;
 
