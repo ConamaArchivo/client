@@ -16,7 +16,7 @@ const New = () => {
   useEffect(() => {
     const getOptions = async () => {
       try {
-        const res = await axiosPublic.get('/nueva-entrada', {});
+        const res = await axiosPublic.get('/new', {});
         setGenreOptions(res.data.genres);
         setAccompanimentOptions(res.data.accompaniments);
         setNameOptions(res.data.names);

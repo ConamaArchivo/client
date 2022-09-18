@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const getPieces = async () => {
       try {
-        const res = await axiosPublic.get('/obras', {});
+        const res = await axiosPublic.get('/pieces', {});
         setPieces(res.data);
         console.log('res.data: ', res.data);
       } catch (error) {}

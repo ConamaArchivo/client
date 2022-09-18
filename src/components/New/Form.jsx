@@ -38,7 +38,7 @@ const Form = ({
       formData.append(`file-${index}`, file);
     });
     try {
-      await axiosPrivate.post('/nueva-entrada', formData, {
+      await axiosPrivate.post('/new', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Access-Control-Allow-Origin': process.env.REACT_APP_API_URL,
