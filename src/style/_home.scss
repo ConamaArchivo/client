@@ -223,22 +223,24 @@
           width: 100%;
           margin-inline: auto;
         }
-        a {
+        button {
+          cursor: pointer;
           position: absolute;
-          text-decoration: none;
           color: $pri-font-color;
           display: flex;
           justify-content: center;
           align-items: center;
           height: $big-svg-size * 1.8;
           transition: 0.15s ease-in-out;
+          border: none;
+          background: none;
           svg {
             transition: transform 0.15s ease-in-out;
             width: $big-svg-size;
             height: $big-svg-size;
           }
         }
-        .link {
+        .view {
           left: 0;
           top: 0;
           width: 100%;

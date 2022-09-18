@@ -12,6 +12,7 @@ const Home = () => {
       try {
         const res = await axiosPublic.get('/obras', {});
         setPieces(res.data);
+        console.log('res.data: ', res.data);
       } catch (error) {}
     };
     getPieces();

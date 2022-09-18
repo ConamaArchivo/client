@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { IconButton } from '@mui/material';
 import { Buffer } from 'buffer';
 import { flag } from 'country-emoji';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
@@ -15,6 +16,24 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
     setSelectedPiece({});
     if (document.querySelector('.selected')) {
       document.querySelector('.selected').classList.remove('selected');
+    }
+  };
+
+  const axiosPrivate = useAxiosPrivate();
+  const requestPdf = async (id, version, endpoint) => {
+    const url = `${process.env.REACT_APP_API_URL}/pdf/${id}/${version}/${endpoint}`;
+    try {
+      const res = await axiosPrivate.get(url, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': process.env.REACT_APP_API_URL,
+        },
+        crossDomain: true,
+      });
+      if (endpoint === 'view') window.open(res.data.url, '_blank');
+      else window.open(res.data.url, '_self');
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -74,7 +93,7 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
           {selectedPiece.comment !== '' ? (
             <div className="comment">{selectedPiece.comment}</div>
           ) : null}
-          {selectedPiece.versions.map((version) => (
+          {selectedPiece.versions.map((version, index) => (
             <div className="version" key={uuid()}>
               {/* <div className="divider"></div> */}
               {version.arr_authors.length !== 0 ? (
@@ -148,21 +167,23 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
                           'binary'
                         ).toString('base64')}`}
                       />
-                      <a
-                        className="link"
-                        rel="noreferrer"
-                        target="_blank"
-                        href={version.files.pdf.url.webRawLink}
+                      <button
+                        className="view"
+                        onClick={() =>
+                          requestPdf(selectedPiece._id, index, 'view')
+                        }
                       >
                         <LaunchIcon />
-                      </a>
-                      <a
+                      </button>
+                      <button
                         className="download"
-                        href={version.files.pdf.url.webContentLink}
+                        onClick={() =>
+                          requestPdf(selectedPiece._id, index, 'download')
+                        }
                       >
                         <FileDownloadIcon />
                         <div className="loader"></div>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 ) : null}
