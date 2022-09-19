@@ -8,10 +8,13 @@ import { IconButton } from '@mui/material';
 import { Buffer } from 'buffer';
 import { flag } from 'country-emoji';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import useToast from '../../hooks/useToast';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
 const Card = ({ selectedPiece, setSelectedPiece }) => {
+const {displayToast} = useToast();
+
   const handleCloseCard = (e) => {
     setSelectedPiece({});
     if (document.querySelector('.selected')) {
@@ -33,7 +36,11 @@ const Card = ({ selectedPiece, setSelectedPiece }) => {
       if (endpoint === 'view') window.open(res.data.url, '_blank');
       else window.open(res.data.url, '_self');
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 401)  {
+        displayToast('Es necesario iniciar sesión para ver los archivos', 'information')
+      } else{
+        console.log(error);
+      }
     }
   };
 
