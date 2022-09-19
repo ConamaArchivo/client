@@ -8,7 +8,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
-function Table({ pieces, setSelectedPiece }) {
+function Table({ pieces, setSelectedPiece, loading }) {
   const data = useMemo(
     () =>
       pieces.map((element) => {
@@ -312,7 +312,7 @@ function Table({ pieces, setSelectedPiece }) {
         </div>
       ) : (
         <div className="loading-container">
-          <CircularProgress />
+          {loading && <CircularProgress />}
         </div>
       )}
     </div>
