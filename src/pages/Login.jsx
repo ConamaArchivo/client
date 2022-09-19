@@ -3,10 +3,14 @@ import { TextField, Checkbox, FormControlLabel } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { axiosPublic } from '../axios';
 import useAuth from '../hooks/useAuth';
+import useToast from '../hooks/useToast';
+import useStyle from '../hooks/useStyle';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Login = () => {
+  const { prefersDarkMode } = useStyle();
   const { setAuth, persist, setPersist } = useAuth();
+  const { displayToast } = useToast();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,15 +40,22 @@ const Login = () => {
       setAuth({ email, password, accessToken });
       setEmail('');
       setPassword('');
-    } catch (err) {
-      console.log('err: ', err);
+      navigate(from, { replace: true });
+    } catch (error) {
+      if (error.response.status === 400)  {
+        displayToast('El email y la contraseña no pueden estar vacíos', 'error')
+      }
+      if (error.response.status === 401)  {
+        displayToast('El email o la contraseña es incorrecta', 'error')
+      } else{
+        console.log(error);
+      }
     }
     setLoading(false);
-    navigate(from, { replace: true });
   };
 
   return (
-    <div id="login">
+    <div id="login" data-dark-theme={prefersDarkMode}>
       <h3>Iniciar sesión</h3>
       <form onSubmit={handleLogin}>
         <TextField

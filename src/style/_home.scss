@@ -8,19 +8,19 @@
     min-height: min-content;
     .search {
       button {
-        border: 0
+        border: 0;
       }
       .content {
         border-radius: 0.3rem;
         display: flex;
-        background: $ter-bg-color;
+        background: $qua-bg-color;
         height: calc(100% - 1rem);
         width: 30rem;
         max-width: 30rem;
         gap: 0.4rem;
         input {
           width: 100%;
-          background: $ter-bg-color;
+          background: $qua-bg-color;
           border: none;
           height: 100%;
           font-size: 1rem;
@@ -29,7 +29,7 @@
           }
         }
         &.focus {
-          outline: 2px solid white;
+          outline: 2px solid $pri-font-color;
         }
       }
     }
@@ -61,7 +61,7 @@
     }
     table {
       // margin-top: $header-height;
-      white-space:nowrap;
+      white-space: nowrap;
       border-collapse: collapse;
       border: 2px solid $sec-bg-color;
       min-height: min-content;
@@ -178,7 +178,7 @@
       .genre-item,
       .accompaniment-item {
         padding: 0.2rem 0.4rem;
-        background: $ter-bg-color;
+        background: $qua-bg-color;
       }
     }
     .repertoire,
@@ -194,7 +194,7 @@
       font-weight: 700;
     }
     .comment {
-      background: $ter-bg-color;
+      background: $qua-bg-color;
       padding: 1rem;
     }
     .version {
@@ -226,7 +226,7 @@
         button {
           cursor: pointer;
           position: absolute;
-          color: $pri-font-color;
+          color: #fff;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -248,7 +248,7 @@
           color: transparent;
           &:hover {
             background: $link-hover-color;
-            color: $pri-font-color;
+            color: #fff;
             svg {
               transform: scale(1.3);
             }

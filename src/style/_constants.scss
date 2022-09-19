@@ -1,15 +1,46 @@
+:root {
+  --pri-font-color: #fff;
+  --sec-font-color: #ccc;
+  --pri-bg-color: #181818;
+  --sec-bg-color: #222;
+  --ter-bg-color: #333;
+  --qua-bg-color: #444;
+  --overlay-bg-color: rgba(17, 17, 17, 0.5);
+
+  --pri-btn-color: rgb(0, 42, 45);
+  --sec-btn-color: #444;
+  --ter-btn-color: #666;
+
+  [data-dark-theme='false'] {
+    --pri-font-color: #000;
+    --sec-font-color: #333;
+    --pri-bg-color: #e7e7e7;
+    --sec-bg-color: #ddd;
+    --ter-bg-color: #ccc;
+    --qua-bg-color: #bbb;
+    --overlay-bg-color: rgba(238, 238, 238, 0.5);
+
+    --pri-btn-color: rgb(0, 42, 45);
+    --sec-btn-color: #bbb;
+    --ter-btn-color: #999;
+  }
+}
+
 $bp1-width: 900px;
 $bp2-width: 500px;
 
-$pri-font-color: #fff;
-$sec-font-color: #ccc;
-$pri-bg-color: #181818;
-$sec-bg-color: #222;
-$ter-bg-color: #444;
+$pri-font-color: var(--pri-font-color);
+$sec-font-color: var(--sec-font-color);
+$pri-bg-color: var(--pri-bg-color);
+$sec-bg-color: var(--sec-bg-color);
+$ter-bg-color: var(--ter-bg-color);
+$qua-bg-color: var(--qua-bg-color);
 
-$pri-btn-color: rgb(0, 42, 45);
-$sec-btn-color: #444;
-$ter-btn-color: #666;
+$pri-btn-color: var(--pri-btn-color);
+$sec-btn-color: var(--sec-btn-color);
+$ter-btn-color: var(--ter-btn-color);
+$overlay-bg-color: var(--overlay-bg-color);
+
 $btn-border-radius: 0.3rem;
 $action-btn-size: 1.8rem;
 
@@ -26,7 +57,7 @@ $blue-color: #0a6f94;
 
 $download-color: rgba(
   $color: #000,
-  $alpha: 0.5,
+  $alpha: 0.4,
 );
 $download-hover-color: rgba(
   $color: $green-color,
@@ -43,7 +74,6 @@ $input-bg-color: $sec-btn-color;
 $input-padding: 0.4rem 0.8rem;
 $form-group-h-gap: 3rem;
 $form-group-v-gap: 0.2rem;
-$form-author-gb-color: #121212;
 $form-gap: 1.6rem;
 
 $header-height: 3.5rem;

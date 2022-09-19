@@ -225,6 +225,7 @@ const Form = ({
   return (
     <div className="form-wrapper">
       <SaveTopBar loading={loading} />
+      {loading && <div className="loading-overlay"></div>}
       <form id="new-piece" onSubmit={handleSubmit}>
         <div className="general">
           <TextField

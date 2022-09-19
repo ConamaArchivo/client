@@ -13,6 +13,10 @@
   color-scheme: dark;
 }
 
+[data-dark-theme='false'] * {
+  color-scheme: light;
+}
+
 html,
 body {
   height: 100vh;
@@ -38,6 +42,7 @@ body {
   align-items: center;
   background: $sec-bg-color;
   min-width: max-content;
+  z-index: 200;
   .title {
     display: flex;
     flex-direction: column;
@@ -89,13 +94,13 @@ body {
         text-transform: uppercase;
       }
       &:hover {
-        background: #333;
+        background: $ter-bg-color;
       }
     }
     li.active {
-      background: #555;
+      background: $sec-btn-color;
       &:hover {
-        background: #666;
+        background: $ter-btn-color;
       }
     }
   }
@@ -112,7 +117,7 @@ body {
   justify-content: center;
   align-items: center;
   padding-inline: 3rem;
-  z-index: 50;
+  z-index: 200;
 }
 
 .top-bar.save {
@@ -191,12 +196,16 @@ body {
   height: 2rem;
   font-weight: 400;
   font-size: 0.95rem;
+  z-index: 400;
+  color: $pri-font-color;
   button {
     border: 0;
     height: 2.5rem;
     margin-left: 1.2rem;
     svg {
       transform: scale(0.9);
+  color: $pri-font-color;
+
     }
   }
   &.success {

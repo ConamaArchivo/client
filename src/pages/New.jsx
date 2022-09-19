@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Form from '../components/New/Form';
 import { axiosPublic } from '../axios';
+import useStyle from '../hooks/useStyle';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 const { flag } = require('country-emoji');
 
 const New = () => {
+  const { prefersDarkMode } = useStyle();
   const [genreOptions, setGenreOptions] = useState([]);
   const [accompanimentOptions, setAccompanimentOptions] = useState([]);
   const [nameOptions, setNameOptions] = useState([]);
@@ -48,7 +50,11 @@ const New = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div id="new" className="section-container">
+    <div
+      id="new"
+      className="section-container"
+      data-dark-theme={prefersDarkMode}
+    >
       <Form
         countryOptions={countryOptions}
         genreOptions={genreOptions}

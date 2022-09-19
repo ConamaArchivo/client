@@ -3,8 +3,10 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate } from 'react-router-dom';
+import useStyle from '../hooks/useStyle';
 
 const User = () => {
+  const {prefersDarkMode} = useStyle();
   const { auth, setAuth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
@@ -24,7 +26,7 @@ const User = () => {
   };
 
   return (
-    <div id="user">
+    <div id="user" data-dark-theme={prefersDarkMode}>
       <h3>{auth.email}</h3>
       <LoadingButton onClick={handleLogout} loading={loading} variant="contained">
         Cerrar sesión

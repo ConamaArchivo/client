@@ -1,4 +1,5 @@
 import { createContext, useState, useMemo } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import sass from '../../src/style/export.module.scss';
@@ -6,7 +7,8 @@ import sass from '../../src/style/export.module.scss';
 const StyleContext = createContext({});
 
 export const StyleProvider = ({ children }) => {
-  const prefersDarkMode = true;
+  // const prefersDarkMode = true;
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
     () =>
       createTheme({
@@ -25,7 +27,7 @@ export const StyleProvider = ({ children }) => {
   
   window.addEventListener('resize', () => setMobileView(getMediaMatch()));
   return (
-    <StyleContext.Provider value={{ mobileView }}>
+    <StyleContext.Provider value={{ mobileView, prefersDarkMode}}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}

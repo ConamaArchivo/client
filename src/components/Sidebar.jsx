@@ -9,12 +9,14 @@ import {
 import React from 'react';
 import Page from './Page';
 import useAuth from '../hooks/useAuth';
+import useStyle from '../hooks/useStyle';
 
 const Sidebar = () => {
+  const { prefersDarkMode } = useStyle();
   const { auth } = useAuth();
 
   return (
-    <div className="sidebar">
+    <div className="sidebar" data-dark-theme={prefersDarkMode}>
       <div className="title">
         <h1>CONAMA</h1>
         <h2>archivo musical</h2>
@@ -38,7 +40,7 @@ const Sidebar = () => {
             icon={<Person />}
             activeIcon={<PersonFill />}
           >
-            {auth?.email ? auth.email : 'Iniciar sesión'}
+            {auth?.email ? 'Oficina técnica' : 'Iniciar sesión'}
           </Page>
         </ul>
       </nav>

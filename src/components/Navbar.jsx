@@ -9,12 +9,14 @@ import {
 import React from 'react';
 import Page from './Page';
 import useAuth from '../hooks/useAuth';
+import useStyle from '../hooks/useStyle';
 
 const Navbar = () => {
+  const { prefersDarkMode } = useStyle();
   const { auth } = useAuth();
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" data-dark-theme={prefersDarkMode}>
       <ul>
         <Page
           to="/"
