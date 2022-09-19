@@ -43,6 +43,7 @@ body {
   background: $sec-bg-color;
   min-width: max-content;
   z-index: 200;
+  padding-bottom: 1.5rem;
   .title {
     display: flex;
     flex-direction: column;
@@ -62,6 +63,7 @@ body {
   }
   nav {
     align-self: stretch;
+    margin-bottom: auto;
   }
   ul {
     display: flex;

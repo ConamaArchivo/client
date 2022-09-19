@@ -6,6 +6,7 @@ import {
   Person,
   PersonFill,
 } from 'react-bootstrap-icons';
+import ThemeToggler from './ThemeToggler';
 import React from 'react';
 import Page from './Page';
 import useAuth from '../hooks/useAuth';
@@ -44,6 +45,7 @@ const Sidebar = () => {
           </Page>
         </ul>
       </nav>
+      <ThemeToggler/>
     </div>
   );
 };
