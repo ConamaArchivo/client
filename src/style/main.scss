@@ -189,23 +189,23 @@ body {
   bottom: 2rem;
   align-items: center;
   padding-left: 10px;
-  height: 2.5rem !important;
   border-radius: 0.3rem;
   overflow: hidden;
   gap: 10px;
-  height: 2rem;
   font-weight: 400;
-  font-size: 0.95rem;
   z-index: 400;
   color: $pri-font-color;
+  .text {
+    padding-block: 0.75rem;
+    font-size: 1rem;
+  }
   button {
     border: 0;
     height: 2.5rem;
     margin-left: 1.2rem;
     svg {
       transform: scale(0.9);
-  color: $pri-font-color;
-
+      color: $pri-font-color;
     }
   }
   &.success {

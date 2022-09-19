@@ -65,4 +65,13 @@
       width: 100vw;
     }
   }
+
+  .toast-msg {
+    left: 1rem !important;
+    right: 1rem !important;
+    bottom: 1rem + $navbar-height !important;
+    button {
+      margin-left: auto !important;
+    }
+  }
 }
