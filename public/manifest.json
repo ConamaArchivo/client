@@ -1,7 +1,7 @@
 {
   "name": "CONAMA - Archivo musical",
   "short_name": "CONAMA",
-  "display": "fullscreen",
+  "display": "standalone",
   "start_url": "/",
   "theme_color": "#222222",
   "background_color": "#181818",
