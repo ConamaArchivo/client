@@ -1,1 +1,1 @@
-self.addEventListener("fetch", function (event) {});
+window.self.addEventListener("fetch", function (event) {});
