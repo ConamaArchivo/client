@@ -1,7 +1,6 @@
 import React from 'react';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import LaunchIcon from '@mui/icons-material/Launch';
-import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { v4 as uuid } from 'uuid';
 import { IconButton } from '@mui/material';
@@ -9,11 +8,12 @@ import { Buffer } from 'buffer';
 import { flag } from 'country-emoji';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import useToast from '../../hooks/useToast';
+import CardActions from './CardActions';
 const countries = require('i18n-iso-countries');
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 
 const Card = ({ selectedPiece, setSelectedPiece }) => {
-const {displayToast} = useToast();
+  const { displayToast } = useToast();
 
   const handleCloseCard = (e) => {
     setSelectedPiece({});
@@ -36,9 +36,12 @@ const {displayToast} = useToast();
       if (endpoint === 'view') window.open(res.data.url, '_blank');
       else window.open(res.data.url, '_self');
     } catch (error) {
-      if (error.response.status === 401)  {
-        displayToast('Es necesario iniciar sesión para ver los archivos', 'information')
-      } else{
+      if (error.response.status === 401) {
+        displayToast(
+          'Es necesario iniciar sesión para ver los archivos',
+          'information'
+        );
+      } else {
         console.log(error);
       }
     }
@@ -49,10 +52,7 @@ const {displayToast} = useToast();
       <div className="card-wrapper">
         <div className="card">
           <div className="card-btns">
-            <IconButton className="more-actions">
-              <MenuIcon />
-            </IconButton>
-
+            <CardActions id={selectedPiece._id} />
             <IconButton className="close-card" onClick={handleCloseCard}>
               <CloseIcon />
             </IconButton>
